@@ -10,8 +10,10 @@
   "author": "Halushko Yury <yuri.halushko@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.3.3",
     "express": "^4.17.1",
-    "express-handlebars": "^5.2.0"
+    "express-handlebars": "^5.2.0",
+    "mongoose": "^5.11.10"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
