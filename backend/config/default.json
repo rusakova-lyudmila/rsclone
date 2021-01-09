@@ -1,5 +1,6 @@
 {
     "port" : 5000,
+    "jwtSecret": "RsCloneMinsk",
     "mongoURI": "mongodb+srv://snaipp1:rsclone@cluster0.ajqdx.mongodb.net/<dbname>?retryWrites=true&w=majority"
 
 }
