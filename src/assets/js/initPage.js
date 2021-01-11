@@ -8,24 +8,39 @@ export default function initPage() {
   /* const navMenu = initMenu();
   pageHeader.appendChild(navMenu); */
 
-  // init h1
-  const pageHeading = document.createElement('h1');
-  pageHeading.textContent = 'Smart Kids';
-  pageHeader.appendChild(pageHeading);
-
-  // init header buttons
-  const headerButtons = document.createElement('div');
-  headerButtons.classList.add('header__buttons');
-  pageHeader.appendChild(headerButtons);
-
   // init main container
   const mainContainer = document.createElement('main');
   mainContainer.classList.add('main-container');
   document.body.appendChild(mainContainer);
 
-  // insert cards to main container
-  /* const cardsContainer = initCards();
-  mainContainer.appendChild(cardsContainer); */
+  // init h1
+  const pageHeading = document.createElement('h1');
+  pageHeading.textContent = 'Smart Kids';
+  mainContainer.appendChild(pageHeading);
+
+  // init h2
+  const pageSubHeading = document.createElement('h2');
+  pageSubHeading.textContent = 'Тренажеры для развития памяти, внимания, логики и мышления';
+  mainContainer.appendChild(pageSubHeading);
+
+  // init buttons container
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.classList.add('buttons-container');
+  mainContainer.appendChild(buttonsContainer);
+
+  // init login button
+  const buttonLogin = document.createElement('button');
+  buttonLogin.classList.add('btn', 'btn-lg', 'btn-login');
+  buttonLogin.setAttribute('type', 'button');
+  buttonLogin.textContent = 'Тренироваться';
+  buttonsContainer.appendChild(buttonLogin);
+
+  // init register button
+  const registerLogin = document.createElement('button');
+  registerLogin.classList.add('btn', 'btn-lg', 'btn-register');
+  registerLogin.setAttribute('type', 'button');
+  registerLogin.textContent = 'Зарегистрироваться';
+  buttonsContainer.appendChild(registerLogin);
 
   // init footer
   const pageFooter = document.createElement('footer');
