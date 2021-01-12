@@ -1,3 +1,5 @@
+import initMenu from './initMenu';
+
 export default function initPage() {
   // init header
   const pageHeader = document.createElement('header');
@@ -5,8 +7,12 @@ export default function initPage() {
   document.body.appendChild(pageHeader);
 
   // insert nav menu to header
-  /* const navMenu = initMenu();
-  pageHeader.appendChild(navMenu); */
+  const navMenu = initMenu();
+  pageHeader.appendChild(navMenu);
+
+  // insert mobile nav menu to header
+  const navMobileMenu = initMenu(true);
+  pageHeader.appendChild(navMobileMenu);
 
   // init main container
   const mainContainer = document.createElement('main');
