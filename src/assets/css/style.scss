@@ -105,8 +105,12 @@ h2 {
         display: flex;
         align-items: center;
 
-        &_active .menu__link{
+        &_active .menu__link {
             color: $magenta-color;
+        }
+
+        &_active .nav-link {
+            color: $yellow-color !important;
         }
     }
 
@@ -164,8 +168,13 @@ h2 {
 }
 
 .main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 85vw;
     max-width: 1440px;
+    min-height: 70vh;
     margin: 40px auto;
     text-align: center;
 
@@ -222,6 +231,7 @@ h2 {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-evenly;
+    width: 100%;
 
     &__item {
         display: flex;
@@ -269,14 +279,13 @@ h2 {
 
         .card__name {
             text-transform: uppercase;
-            font-size: 1.5rem;
-            letter-spacing: 5px;
+            font-size: 1.2rem;
             transition: 0.5s ease;
         }
 
         .card__content {
             width: 100%;
-            padding-bottom: 10px;
+            padding: 10px;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -340,6 +349,14 @@ h2 {
             border-radius: 14px;
         }
     }
+}
+
+.subsection-container {
+    justify-content: flex-start;
+    .cards-container {
+        justify-content: space-between;
+    }
+    
 }
 
 .statistic-container {
