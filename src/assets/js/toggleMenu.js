@@ -1,4 +1,4 @@
-// import { getActivePageName } from './state';
+import { getActivePageName } from './state';
 
 function setActiveMenuItem() {
   const activePageName = getActivePageName();
@@ -12,7 +12,7 @@ function setActiveMenuItem() {
   });
 }
 
-export default function toggleMenu() {
+export function toggleMenu() {
   const menuList = document.querySelector('.menu__list');
   const menuIcon = document.querySelector('.menu__icon');
 
@@ -48,5 +48,14 @@ export default function toggleMenu() {
 
       menuIcon.textContent = 'menu';
     }
+  });
+}
+
+export function activeMenuItem() {
+  const menuItems = document.querySelectorAll('.nav-link');
+  menuItems.forEach((link) => {
+    link.addEventListener('click', () => {
+      setActiveMenuItem();
+    });
   });
 }

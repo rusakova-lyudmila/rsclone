@@ -1,8 +1,32 @@
+import initMainPage from './initMainPage';
+import initSection from './initSection';
+import { setActivePageName, getActivePageName } from './state';
+// import initStatisticPage from './statisticPage';
+
 const menuItems = {
   main: 'Главная',
   training: 'Тренажеры',
   statistic: 'Статистика',
 };
+
+function clickHandler(e) {
+  const sectionName = e.target.dataset.section;
+  let pageContent;
+
+  if (sectionName === 'main') {
+    pageContent = initMainPage();
+  } else if (sectionName === 'statistic') {
+    // pageContent = initStatisticPage();
+  } else {
+    pageContent = initSection(sectionName);
+  }
+
+  const mainContainer = document.querySelector('.main-container');
+  mainContainer.textContent = '';
+  mainContainer.appendChild(pageContent);
+
+  setActivePageName(sectionName);
+}
 
 export default function initMenu(mobile = false) {
   // init nav menu
@@ -27,8 +51,9 @@ export default function initMenu(mobile = false) {
   }
 
   // init menu list
-  // const activePageName = getActivePageName();
+  const activePageName = getActivePageName();
   const menuList = document.createElement('ul');
+
   if (mobile) {
     menuList.classList.add('menu__list');
     navMenu.appendChild(menuList);
@@ -45,10 +70,14 @@ export default function initMenu(mobile = false) {
   Object.keys(menuItems).forEach((item) => {
     // init menu list item
     const menuItem = document.createElement('li');
-    menuItem.classList.add(mobile ? 'menu__item' : 'nav-item');
-    /* if (item === activePageName) {
+    menuItem.classList.add('menu__item');
+    if (!mobile) {
+      menuItem.classList.add('nav-item');
+    }
+
+    if (item === activePageName) {
       menuItem.classList.add('menu__item_active');
-    } */
+    }
     menuItem.dataset.name = item;
     menuList.appendChild(menuItem);
 
@@ -66,7 +95,7 @@ export default function initMenu(mobile = false) {
     menuItemLink.setAttribute('href', `#${item}`);
     menuItemLink.dataset.section = item;
     menuItemLink.textContent = menuItems[item];
-    // menuItemLink.addEventListener('click', clickHandler);
+    menuItemLink.addEventListener('click', clickHandler);
     menuItem.appendChild(menuItemLink);
   });
 
