@@ -13,8 +13,7 @@ const auth = () => {
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
         'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        }
   };
       
   regstrForma.addEventListener('submit', async (e) => {
@@ -27,7 +26,8 @@ const auth = () => {
         password: regformaData.elements.password.value,
         confirm: regformaData.elements.confirm.value
 
-      };     
+      };    
+      options['body'] = JSON.stringify(data); 
       const request = await fetch(`${baseUrl}register`,options);
       const response = await request.json();
     }catch(e){
@@ -42,9 +42,12 @@ const auth = () => {
               email: logformaData.elements.email.value,
               password: logformaData.elements.password.value
       };
+      options['body'] = JSON.stringify(data); 
+      console.log(options)
       const request = await fetch(`${baseUrl}login`,options);
       const response = await request.json();
-      logOut.innerHTML = response.message;
+      localStorage.setItem('auth', JSON.stringify(response));
+      location.replace("/"); 
     }catch(e){
       console.log('Error: ',e);
     }

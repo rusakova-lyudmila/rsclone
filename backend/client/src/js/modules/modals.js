@@ -29,7 +29,6 @@ export const modalHtml = () => {
               <div class="mycontent">
                 <div class="mytab-content active">
                   <div class="p-x-1 p-y-3">
-                    <div class="log-message"></div> 
                     <form name="loginForm" class="card card-block m-x-auto bg-faded form-width" id="logForm">
                       <legend class="m-b-1 text-xs-center">Авторизация</legend>
                       <div class="form-group input-group">
@@ -48,8 +47,7 @@ export const modalHtml = () => {
                   </div>
                 </div>
                 <div class="mytab-content">
-                  <div class="p-x-1 p-y-3">
-                    <div class="reg-message"></div>  
+                  <div class="p-x-1 p-y-3">  
                     <form name="registerFrom" class="card card-block m-x-auto bg-faded form-width" id="regForm">
                       <legend class="m-b-1 text-xs-center">Регистрация</legend>
                       <div class="form-group input-group">
