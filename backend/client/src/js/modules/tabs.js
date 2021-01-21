@@ -1,7 +1,7 @@
 const tabs = (headerSelector, tabSelector, contentSelector, activeClass, display = 'block') => {
-    const header = document.querySelector(headerSelector),
-        tab = document.querySelectorAll(tabSelector),
-        content = document.querySelectorAll(contentSelector);
+    const header = document.querySelector(headerSelector);
+    const tab = document.querySelectorAll(tabSelector);
+    const content = document.querySelectorAll(contentSelector);
  
     function hideTabContent() {
         content.forEach(item => {
@@ -13,7 +13,6 @@ const tabs = (headerSelector, tabSelector, contentSelector, activeClass, display
         });
     }
  
-    // при запуске функции без аргументов активным будет 1 элемент
     function showTabContent(i = 0) {
         content[i].style.display = display;
         tab[i].classList.add(activeClass);

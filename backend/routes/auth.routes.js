@@ -2,10 +2,17 @@ const {Router} = require ('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const nodemailer = require('nodemailer');
+const sendgrid = require('nodemailer-sendgrid-transport');
 const User = require('../models/User');
 const {validationResult} = require('express-validator');
 const {registerValidators, loginValidators} = require('../utils/validators');
+const regEmail = require('../emails/registration');
 const router = Router();
+
+const transporter = nodemailer.createTransport(sendgrid({
+    auth: {api_key: config.get('sendgrid_API_KEY')}
+}));
 
 router.post('/register', registerValidators, async (req, res)=>{
     try{
@@ -31,7 +38,8 @@ router.post('/register', registerValidators, async (req, res)=>{
 
         await user.save();
         res.status(201).json({message: 'Пользователь создан.'});
-    
+        await transporter.sendMail(regEmail(email));
+
     }catch(e){
         res.status(500).json({message: 'Что-то пошло не так, попробуйте снова...' + e.message});
     }

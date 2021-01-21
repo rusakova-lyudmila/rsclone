@@ -6,7 +6,7 @@ import '../styles/Scss/style.scss';
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    'use strict';
+    'use strict';  
     
     initPage();
     modalHtml();
