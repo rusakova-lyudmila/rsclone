@@ -1,35 +1,46 @@
 .mywrap-tabs {
-    max-width: 100%;
-    margin: 0 auto;
-    font-family: sans-serif;
-  }
-  
-  .mywrap-tabs .mytabs:first-child { padding: 7px; }
-  .mywrap-tabs .mytabs::after {
-    content: '';
-    height: 0;
-    display: block;
-    clear: both;
-  }
-  .mywrap-tabs .mytabs .mytab {
-      font-size: 14px;
-    float: left;
-    padding: 9px 19px;
-    transition: background-color .25s linear;
-    cursor: pointer;
-    transition: all .8s ease;
-  }
-  .mywrap-tabs .mytabs .mytab:hover {
-    color: #0d6efd;
-  }
-  .mywrap-tabs .mytabs .mytab.active {
-    border-bottom: 1px solid #606161;
-  }
-  .mywrap-tabs .mycontent {
-    padding: 6px 11px;
-  }
-  .mywrap-tabs .mycontent .mytab-content {
-    display: none;
-    padding: 14px 9px;
-  }
-  .mywrap-tabs .mycontent .mytab-content.active { display: block; }
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+.mywrap-tabs .mytabs:first-child {
+  padding: 7px;
+}
+
+.mywrap-tabs .mytabs::after {
+  content: '';
+  height: 0;
+  display: block;
+  clear: both;
+}
+
+.mywrap-tabs .mytabs .mytab {
+  font-size: 14px;
+  float: left;
+  padding: 9px 19px;
+  transition: background-color .25s linear;
+  cursor: pointer;
+  transition: all .8s ease;
+}
+
+.mywrap-tabs .mytabs .mytab:hover {
+  color: #0d6efd;
+}
+
+.mywrap-tabs .mytabs .mytab.active {
+  border-bottom: 1px solid #606161;
+}
+
+.mywrap-tabs .mycontent {
+  padding: 6px 11px;
+}
+
+.mywrap-tabs .mycontent .mytab-content {
+  display: none;
+  padding: 14px 9px;
+}
+
+.mywrap-tabs .mycontent .mytab-content.active {
+  display: block;
+}

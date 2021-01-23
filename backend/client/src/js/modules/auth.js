@@ -1,3 +1,5 @@
+
+
 const auth = () => {
   const regstrForma = document.getElementById('regForm');
   const lgnForma = document.getElementById('logForm');
@@ -29,7 +31,13 @@ const auth = () => {
       };    
       options['body'] = JSON.stringify(data); 
       const request = await fetch(`${baseUrl}register`,options);
+      if(!request.ok){
+        throw new Error('Некорректные данные для регистрации');
+      }
       const response = await request.json();
+      if(response){
+        location.replace("/");
+      }
     }catch(e){
       console.log('Error: ',e);
     }
@@ -54,4 +62,4 @@ const auth = () => {
   });
 }
 
-module.exports = auth;
+export default auth;
