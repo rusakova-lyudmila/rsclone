@@ -1,10 +1,34 @@
 import { trainingsItems } from './trainings';
-import { gameLevel } from './game';
+import { gameLevel, getGameAudioStatus, setGameAudioStatus } from './game';
 import { initGame, startGame, gameLevelInfo } from './trainings/addition';
+import initSection from './initSection';
+
+function closeTrainingHandler() {
+  const pageContent = initSection('trainings');
+  const mainContainer = document.querySelector('.main-container');
+  mainContainer.textContent = '';
+  mainContainer.appendChild(pageContent);
+}
 
 function closeOverlayHandler() {
   const overlayContainer = document.querySelector('.training__overlay');
   overlayContainer.classList.add('hidden');
+}
+
+function soundTrainingHandler(e) {
+  const audioAllowing = getGameAudioStatus();
+  const buttonSound = e.target;
+
+  console.log(audioAllowing);
+  console.log(e.target);
+
+  if (audioAllowing) {
+    setGameAudioStatus(false);
+    buttonSound.textContent = 'volume_off';
+  } else {
+    setGameAudioStatus(true);
+    buttonSound.textContent = 'volume_up';
+  }
 }
 
 function replaceContent(currentBlock, newBlock, parentBlock) {
@@ -47,7 +71,7 @@ function initInfoContainer(level, time, score) {
   // init score info container
   const scoreItem = document.createElement('div');
   scoreItem.classList.add('training__score');
-  scoreItem.innerHTML = `<span>Очки:</span> ${score}`;
+  scoreItem.innerHTML = `<span>Очки:</span> <span class="score__item">${score}</span>`;
   infoContainer.appendChild(scoreItem);
 
   return infoContainer;
@@ -62,21 +86,21 @@ function initHelpButtons() {
   buttonExit.classList.add('material-icons');
   buttonExit.setAttribute('title', 'Закончить тренировку');
   buttonExit.textContent = 'close';
-  buttonExit.addEventListener('click', () => {});
+  buttonExit.addEventListener('click', closeTrainingHandler);
   buttonsContainer.appendChild(buttonExit);
 
   // init sound button
   const buttonSound = document.createElement('i');
   buttonSound.classList.add('material-icons');
-  buttonExit.setAttribute('title', 'Включить/выключить звук');
+  buttonSound.setAttribute('title', 'Включить/выключить звук');
   buttonSound.textContent = 'volume_off';
-  buttonSound.addEventListener('click', () => {});
+  buttonSound.addEventListener('click', soundTrainingHandler);
   buttonsContainer.appendChild(buttonSound);
 
   // init info button
   const buttonInfo = document.createElement('i');
   buttonInfo.classList.add('material-icons');
-  buttonExit.setAttribute('title', 'Прочитать правила');
+  buttonInfo.setAttribute('title', 'Прочитать правила');
   buttonInfo.textContent = 'help_outline';
   buttonInfo.addEventListener('click', () => {
     const overlay = document.querySelector('.training__overlay');
@@ -85,6 +109,34 @@ function initHelpButtons() {
   buttonsContainer.appendChild(buttonInfo);
 
   return buttonsContainer;
+}
+
+function initAudio() {
+  const audioContainer = document.createElement('div');
+  audioContainer.classList.add('training__audio');
+
+  // init right answer click audio
+  const rightAnswerAudio = document.createElement('audio');
+  rightAnswerAudio.classList.add('audio__item');
+  rightAnswerAudio.setAttribute('src', './assets/audio/answer_right.mp3');
+  rightAnswerAudio.dataset.name = 'right-answer';
+  audioContainer.appendChild(rightAnswerAudio);
+
+  // init wrong click audio
+  const wrongAnswerAudio = document.createElement('audio');
+  wrongAnswerAudio.classList.add('audio__item');
+  wrongAnswerAudio.setAttribute('src', './assets/audio/answer_wrong.mp3');
+  wrongAnswerAudio.dataset.name = 'wrong-answer';
+  audioContainer.appendChild(wrongAnswerAudio);
+
+  // init timeout audio
+  const timeoutAudio = document.createElement('audio');
+  timeoutAudio.classList.add('audio__item');
+  timeoutAudio.setAttribute('src', './assets/audio/timeout.mp3');
+  timeoutAudio.dataset.name = 'timeout';
+  audioContainer.appendChild(timeoutAudio);
+
+  return audioContainer;
 }
 
 function initOverlay(content) {
@@ -160,6 +212,11 @@ export default function initTraining(trainingKey, subSectionKey) {
   const overlay = initOverlay(trainingInfo.rules);
   const overlayContainer = document.querySelector('.training__overlay');
   replaceContent(overlayContainer, overlay, trainingCard);
+
+  // init audio
+  const audio = initAudio();
+  const audioContainer = document.querySelector('.training__audio');
+  replaceContent(audioContainer, audio, trainingCard);
 
   return trainingContainer;
 }

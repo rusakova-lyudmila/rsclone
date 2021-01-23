@@ -473,7 +473,7 @@ h2 {
   border-radius: 5px;
 }
 
-.training__level span, .training__score span {
+.training__level span:not(.score__item), .training__score span:not(.score__item) {
   color: #ff5b5d;
 }
 

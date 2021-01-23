@@ -1,4 +1,4 @@
-import { gameStatus } from '../game';
+import { gameStatus, getGameAudioStatus } from '../game';
 
 export const gameLevelInfo = {
   easy: {
@@ -17,6 +17,14 @@ export const gameLevelInfo = {
     answersCount: 5,
   },
 };
+
+function audioSound(audioName) {
+  const audio = document.querySelector(`audio[data-name="${audioName}"]`);
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+}
 
 function mixAnswers(arr) {
   return [...arr].sort(() => Math.random() - 0.5);
@@ -85,6 +93,14 @@ function renderExample(gameObj, example) {
     if (newGameState.status === gameStatus.start) {
       const newExample = generateExample(level);
       renderExample(newGameState, newExample);
+
+      const audioAllowing = getGameAudioStatus();
+      if (audioAllowing) {
+        audioSound('right-answer');
+      }
+
+      const scoreItem = document.querySelector('.score__item');
+      scoreItem.textContent = newGameState.score;
     }
   };
 
@@ -92,6 +108,11 @@ function renderExample(gameObj, example) {
     if (newGameState.status === gameStatus.start) {
       const newExample = generateExample(gameObj.level);
       renderExample(newGameState, newExample);
+
+      const audioAllowing = getGameAudioStatus();
+      if (audioAllowing) {
+        audioSound('wrong-answer');
+      }
     }
   };
 

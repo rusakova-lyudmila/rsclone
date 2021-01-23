@@ -18,3 +18,15 @@ export const gameStatus = {
   start: 'start',
   stop: 'stop',
 };
+
+const gameAudio = {
+  audio: false,
+};
+
+export function setGameAudioStatus(audioStatus) {
+  gameAudio.audio = audioStatus;
+}
+
+export function getGameAudioStatus() {
+  return gameAudio.audio;
+}
