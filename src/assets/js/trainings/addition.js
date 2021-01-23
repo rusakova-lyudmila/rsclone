@@ -1,4 +1,6 @@
-export const gameLevel = {
+import { gameStatus } from '../game';
+
+export const gameLevelInfo = {
   easy: {
     termsCount: 2,
     maxTerm: 20,
@@ -6,15 +8,14 @@ export const gameLevel = {
   },
   medium: {
     termsCount: 3,
-    maxTerm: 50,
+    maxTerm: 40,
+    answersCount: 4,
+  },
+  hard: {
+    termsCount: 4,
+    maxTerm: 60,
     answersCount: 5,
   },
-};
-
-const gameStatus = {
-  init: 'init',
-  start: 'start',
-  stop: 'stop',
 };
 
 function mixAnswers(arr) {
@@ -44,21 +45,14 @@ function generateExample({ termsCount, maxTerm, answersCount }) {
   };
 }
 
-function renderTimer(time) {
-  const elem = document.createElement('div');
-  elem.classList.add('adding__timer');
-  elem.textContent = time;
-  return elem;
+function initQuestion(question) {
+  const questionContainer = document.createElement('div');
+  questionContainer.classList.add('adding__question');
+  questionContainer.textContent = question;
+  return questionContainer;
 }
 
-function renderQuestion(question) {
-  const elem = document.createElement('div');
-  elem.classList.add('adding__question');
-  elem.textContent = question;
-  return elem;
-}
-
-function renderAnswers(example, successHandler, failHandler) {
+function initAnswers(example, successHandler, failHandler) {
   const answersContainer = document.createElement('div');
   answersContainer.classList.add('adding__answers');
 
@@ -75,44 +69,15 @@ function renderAnswers(example, successHandler, failHandler) {
   return answersContainer;
 }
 
-function renderHelpButtons() {
-  const buttonsContainer = document.createElement('div');
-  buttonsContainer.classList.add('adding__buttons');
-
-  // init exit button
-  const buttonExit = document.createElement('button');
-  buttonExit.classList.add('btn');
-  buttonExit.textContent = 'Выйти';
-  buttonExit.addEventListener('click', () => {});
-  buttonsContainer.appendChild(buttonExit);
-
-  // init sound button
-  const buttonSound = document.createElement('button');
-  buttonSound.classList.add('btn');
-  buttonSound.textContent = 'Звук';
-  buttonSound.addEventListener('click', () => {});
-  buttonsContainer.appendChild(buttonSound);
-
-  // init info button
-  const buttonInfo = document.createElement('button');
-  buttonInfo.classList.add('btn');
-  buttonInfo.textContent = 'Инфо';
-  buttonInfo.addEventListener('click', () => {});
-  buttonsContainer.appendChild(buttonInfo);
-
-  return buttonsContainer;
-}
-
 function renderExample(gameObj, example) {
   const { container, level } = gameObj;
   container.innerHTML = '';
 
-  const timer = renderTimer(gameObj.duration);
-  container.appendChild(timer);
-
-  const question = renderQuestion(example.question);
+  // init question(example to sum) container
+  const question = initQuestion(example.question);
   container.appendChild(question);
 
+  // init answer buttons container
   const newGameState = { ...gameObj };
 
   const successHandler = () => {
@@ -130,18 +95,14 @@ function renderExample(gameObj, example) {
     }
   };
 
-  const answers = renderAnswers(example, successHandler, failHandler);
+  const answers = initAnswers(example, successHandler, failHandler);
   container.appendChild(answers);
-
-  const buttons = renderHelpButtons();
-  container.appendChild(buttons);
 }
 
-export function initGame(level, duration, container) {
+export function initGame(level, container) {
   return {
     score: 0,
     level,
-    duration,
     status: gameStatus.init,
     container,
   };
