@@ -9,8 +9,8 @@ import '../styles/Scss/style.scss';
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';  
     
-    // initPage();
-    profile();
+    initPage();
+    // profile();
     modalHtml();
     modals();
     tabs('.mytabs', '.mytab', '.mytab-content', 'active');

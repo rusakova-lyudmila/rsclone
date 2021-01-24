@@ -75,13 +75,6 @@ export const modalHtml = () => {
                       <input class="form-control" id="confirm" type="password" name="confirm"/>
                       <label for="password">Пароль повторно</label>
                     </div>
-                    <div class="form-group">
-                      <label class="custom-control custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"/>
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Получать новости</span>
-                      </label>
-                    </div>
                     <div class="text-xs-center">
                       <button class="btn btn-block btn-primary" type="submit">Регистрация</button>
                     </div>
