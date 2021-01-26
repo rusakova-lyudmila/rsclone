@@ -20,8 +20,9 @@ const schema = new Schema({
     },
     results: [{
         type: Types.ObjectId,
-        ref: 'Results'
+        ref: 'Trainer'
     }]
 });
+
 
 module.exports = model('User', schema);

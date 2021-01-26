@@ -4,6 +4,7 @@
     "mongoURI": "mongodb+srv://snaipp1:rsclone@cluster0.ajqdx.mongodb.net/<dbname>?retryWrites=true&w=majority",
     "sendgrid_API_KEY": "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",
     "email_from": "snaipp1@yandex.by",
-    "baseURL": "http://localhost:4200/"
+    "baseURL": "http://localhost:4200/",
+    "backURL": "http://localhost:5000/"
 
 }
