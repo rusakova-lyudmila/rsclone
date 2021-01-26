@@ -1,4 +1,4 @@
-import { setActivePageName } from './state';
+// import { setActivePageName } from './state';
 import initSubSection from './initSubSection';
 import { trainingTypes } from './trainings';
 
@@ -9,7 +9,7 @@ function clickHandler(e) {
   const cardsContainer = document.querySelector('.cards-container');
   cardsContainer.replaceWith(cardsElements);
 
-  setActivePageName(sectionName);
+  // setActivePageName(sectionName);
 }
 
 export default function initSection() {
