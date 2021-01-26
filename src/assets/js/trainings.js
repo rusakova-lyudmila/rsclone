@@ -62,12 +62,20 @@ export const trainingsItems = [
     typeKey: 'logic',
     trainings: [
       {
-        key: 'adding',
+        key: 'addition',
         name: 'Сложение',
         image: 'img/logic/adding.jpg',
         bg: 'img/logic/bg/adding.jpg',
         description: 'Тренажер для развития логики',
         rules: '<p>Необходимо в уме сложить все числа в предложенном примере и нажать на кнопку с правильным ответом.</p><p>Нужно решать примеры, пока не закончилось время таймера.</p>',
+      },
+      {
+        key: 'subtraction',
+        name: 'Вычитание',
+        image: 'img/logic/adding.jpg',
+        bg: 'img/logic/bg/subtraction.jpg',
+        description: 'Тренажер для развития логики',
+        rules: '<p>Необходимо в уме вычесть все числа в предложенном примере и нажать на кнопку с правильным ответом.</p><p>Нужно решать примеры, пока не закончилось время таймера.</p>',
       },
     ],
   },

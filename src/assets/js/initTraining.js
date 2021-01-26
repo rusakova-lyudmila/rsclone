@@ -1,35 +1,6 @@
 import { trainingsItems } from './trainings';
-import { gameLevel, getGameAudioStatus, setGameAudioStatus } from './game';
+import { gameLevel } from './game';
 import { initGame, startGame, gameLevelInfo } from './trainings/addition';
-import initSection from './initSection';
-
-function closeTrainingHandler() {
-  const pageContent = initSection('trainings');
-  const mainContainer = document.querySelector('.main-container');
-  mainContainer.textContent = '';
-  mainContainer.appendChild(pageContent);
-}
-
-function closeOverlayHandler() {
-  const overlayContainer = document.querySelector('.training__overlay');
-  overlayContainer.classList.add('hidden');
-}
-
-function soundTrainingHandler(e) {
-  const audioAllowing = getGameAudioStatus();
-  const buttonSound = e.target;
-
-  console.log(audioAllowing);
-  console.log(e.target);
-
-  if (audioAllowing) {
-    setGameAudioStatus(false);
-    buttonSound.textContent = 'volume_off';
-  } else {
-    setGameAudioStatus(true);
-    buttonSound.textContent = 'volume_up';
-  }
-}
 
 function replaceContent(currentBlock, newBlock, parentBlock) {
   if (currentBlock) {
@@ -47,117 +18,51 @@ function initSubSectionHeading(trainingInfo) {
   return sectionHeading;
 }
 
-function initInfoContainer(level, time, score) {
-  const infoContainer = document.createElement('div');
-  infoContainer.classList.add('training__info');
+function initStartTraining(trainingInfo, game) {
+  // init start training container
+  const startTrainingContainer = document.createElement('div');
+  startTrainingContainer.classList.add('training__start');
+  startTrainingContainer.innerHTML = `<p>${trainingInfo.description}</p>`;
 
-  // init level info container
-  const levelItem = document.createElement('div');
-  levelItem.classList.add('training__level');
-  levelItem.innerHTML = `<span>Уровень:</span> ${level.name}`;
-  infoContainer.appendChild(levelItem);
+  // init level game select container
+  const levelSelectContainer = document.createElement('div');
+  levelSelectContainer.classList.add('training__select');
+  startTrainingContainer.appendChild(levelSelectContainer);
 
-  // init timer info container
-  const timerItem = document.createElement('div');
-  timerItem.classList.add('training__timer', 'timer');
-  infoContainer.appendChild(timerItem);
+  // init level game select label
+  const levelSelectLabel = document.createElement('div');
+  levelSelectLabel.textContent = 'Выберите уровень:';
+  levelSelectContainer.appendChild(levelSelectLabel);
 
-  // init timer
-  const timer = document.createElement('div');
-  timer.classList.add('timer__item');
-  timer.textContent = time;
-  timerItem.appendChild(timer);
+  // init level game select
+  const levelSelect = document.createElement('select');
+  levelSelectContainer.appendChild(levelSelect);
 
-  // init score info container
-  const scoreItem = document.createElement('div');
-  scoreItem.classList.add('training__score');
-  scoreItem.innerHTML = `<span>Очки:</span> <span class="score__item">${score}</span>`;
-  infoContainer.appendChild(scoreItem);
+  // init select options
+  Object.keys(gameLevel).map((item) => {
+    const option = document.createElement('option');
+    option.setAttribute('value', item);
+    option.textContent = gameLevel[item].name;
+    levelSelect.appendChild(option);
 
-  return infoContainer;
-}
-
-function initHelpButtons() {
-  const buttonsContainer = document.createElement('div');
-  buttonsContainer.classList.add('training__buttons');
-
-  // init exit button
-  const buttonExit = document.createElement('i');
-  buttonExit.classList.add('material-icons');
-  buttonExit.setAttribute('title', 'Закончить тренировку');
-  buttonExit.textContent = 'close';
-  buttonExit.addEventListener('click', closeTrainingHandler);
-  buttonsContainer.appendChild(buttonExit);
-
-  // init sound button
-  const buttonSound = document.createElement('i');
-  buttonSound.classList.add('material-icons');
-  buttonSound.setAttribute('title', 'Включить/выключить звук');
-  buttonSound.textContent = 'volume_off';
-  buttonSound.addEventListener('click', soundTrainingHandler);
-  buttonsContainer.appendChild(buttonSound);
-
-  // init info button
-  const buttonInfo = document.createElement('i');
-  buttonInfo.classList.add('material-icons');
-  buttonInfo.setAttribute('title', 'Прочитать правила');
-  buttonInfo.textContent = 'help_outline';
-  buttonInfo.addEventListener('click', () => {
-    const overlay = document.querySelector('.training__overlay');
-    overlay.classList.remove('hidden');
+    return option;
   });
-  buttonsContainer.appendChild(buttonInfo);
 
-  return buttonsContainer;
-}
+  // init start training button
+  const startButton = document.createElement('button');
+  startButton.classList.add('training__button', 'btn');
+  startButton.innerHTML = '<i class="material-icons">play_circle_outline</i>Начать';
+  startButton.addEventListener('click', () => {
+    const selectedGameLevel = levelSelect.value;
+    startGame({
+      ...game,
+      level: gameLevelInfo[gameLevel[selectedGameLevel].levelName],
+      duration: gameLevel[selectedGameLevel].duration,
+    });
+  });
+  startTrainingContainer.appendChild(startButton);
 
-function initAudio() {
-  const audioContainer = document.createElement('div');
-  audioContainer.classList.add('training__audio');
-
-  // init right answer click audio
-  const rightAnswerAudio = document.createElement('audio');
-  rightAnswerAudio.classList.add('audio__item');
-  rightAnswerAudio.setAttribute('src', './assets/audio/answer_right.mp3');
-  rightAnswerAudio.dataset.name = 'right-answer';
-  audioContainer.appendChild(rightAnswerAudio);
-
-  // init wrong click audio
-  const wrongAnswerAudio = document.createElement('audio');
-  wrongAnswerAudio.classList.add('audio__item');
-  wrongAnswerAudio.setAttribute('src', './assets/audio/answer_wrong.mp3');
-  wrongAnswerAudio.dataset.name = 'wrong-answer';
-  audioContainer.appendChild(wrongAnswerAudio);
-
-  // init timeout audio
-  const timeoutAudio = document.createElement('audio');
-  timeoutAudio.classList.add('audio__item');
-  timeoutAudio.setAttribute('src', './assets/audio/timeout.mp3');
-  timeoutAudio.dataset.name = 'timeout';
-  audioContainer.appendChild(timeoutAudio);
-
-  return audioContainer;
-}
-
-function initOverlay(content) {
-  const overlayContainer = document.createElement('div');
-  overlayContainer.classList.add('training__overlay', 'overlay', 'hidden');
-
-  // init overlay content
-  const overlayContent = document.createElement('div');
-  overlayContent.classList.add('overlay__content');
-  overlayContent.innerHTML = content;
-  overlayContainer.appendChild(overlayContent);
-
-  // init overlay button
-  const buttonOverlay = document.createElement('i');
-  buttonOverlay.classList.add('material-icons');
-  buttonOverlay.setAttribute('title', 'Закрыть');
-  buttonOverlay.textContent = 'close';
-  buttonOverlay.addEventListener('click', closeOverlayHandler);
-  overlayContainer.appendChild(buttonOverlay);
-
-  return overlayContainer;
+  return startTrainingContainer;
 }
 
 export default function initTraining(trainingKey, subSectionKey) {
@@ -187,36 +92,13 @@ export default function initTraining(trainingKey, subSectionKey) {
   trainingCard.style.backgroundImage = `url("./assets/${trainingInfo.bg}")`;
   trainingContainer.appendChild(trainingCard);
 
-  // init level, timer and score info container
-  const info = initInfoContainer(gameLevel.easy, gameLevel.easy.duration, 0);
-  const infoContainer = document.querySelector('.training__info');
-  replaceContent(infoContainer, info, trainingCard);
-
-  // init game container
-  const gameContainer = document.createElement('div');
-  gameContainer.classList.add('training__game');
-  trainingCard.appendChild(gameContainer);
-
   // init game
-  const game = initGame(gameLevelInfo.easy, gameContainer);
+  const game = initGame(gameLevelInfo[gameLevel.easy.levelName], trainingCard, trainingInfo);
 
-  // start game
-  startGame(game);
-
-  // init help buttons container
-  const buttons = initHelpButtons();
-  const buttonsContainer = document.querySelector('.training__buttons');
-  replaceContent(buttonsContainer, buttons, trainingCard);
-
-  // init overlay
-  const overlay = initOverlay(trainingInfo.rules);
-  const overlayContainer = document.querySelector('.training__overlay');
-  replaceContent(overlayContainer, overlay, trainingCard);
-
-  // init audio
-  const audio = initAudio();
-  const audioContainer = document.querySelector('.training__audio');
-  replaceContent(audioContainer, audio, trainingCard);
+  // start training
+  const startTraining = initStartTraining(trainingInfo, game);
+  const startTrainingContainer = document.querySelector('.training__start');
+  replaceContent(startTrainingContainer, startTraining, trainingCard);
 
   return trainingContainer;
 }
