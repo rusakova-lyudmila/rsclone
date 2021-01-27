@@ -73,7 +73,7 @@ export const trainingsItems = [
         key: 'subtraction',
         name: 'Вычитание',
         image: 'img/logic/adding.jpg',
-        bg: 'img/logic/bg/subtraction.jpg',
+        bg: 'img/logic/bg/adding.jpg',
         description: 'Тренажер для развития логики',
         rules: '<p>Необходимо в уме вычесть все числа в предложенном примере и нажать на кнопку с правильным ответом.</p><p>Нужно решать примеры, пока не закончилось время таймера.</p>',
       },
