@@ -16,6 +16,30 @@
         <li><a href="/courses">Курсы</a></li>
       {{/if}}
 
+      {{#if isAttention}}
+          <li class="active"><a href="/trainings/attention">Внимание</a></li>
+        {{else}}
+          <li><a href="/trainings/attention">Внимание</a></li>
+        {{/if}} 
+
+      {{#if isAddition}}
+          <li class="active"><a href="/trainings/logic/addition">Логика</a></li>
+        {{else}}
+          <li><a href="/trainings/logic/addition">Логика</a></li>
+        {{/if}}
+
+      {{#if  isMemory}}
+          <li class="active"><a href="/trainings/memory">Память</a></li>
+        {{else}}
+          <li><a href="/trainings/memory">Память</a></li>
+        {{/if}} 
+
+      {{#if  isThinking}}
+          <li class="active"><a href="/trainings/thinking">Мышление</a></li>
+        {{else}}
+          <li><a href="/trainings/thinking">Мышление</a></li>
+        {{/if}}  
+
       {{#if isAuth}}
         {{#if isAdd}}
           <li class="active"><a href="/add">Добавить курс</a></li>
@@ -66,6 +90,30 @@
       {{else}}
         <li><a href="/courses">Курсы</a></li>
       {{/if}}
+
+      {{#if isAttention}}
+          <li class="active"><a href="/trainings/attention">Внимание</a></li>
+        {{else}}
+          <li><a href="/trainings/attention">Внимание</a></li>
+        {{/if}} 
+
+      {{#if isAddition}}
+          <li class="active"><a href="/trainings/logic/addition">Логика</a></li>
+        {{else}}
+          <li><a href="/trainings/logic/addition">Логика</a></li>
+        {{/if}}
+
+      {{#if  isMemory}}
+          <li class="active"><a href="/trainings/memory">Память</a></li>
+        {{else}}
+          <li><a href="/trainings/memory">Память</a></li>
+        {{/if}} 
+
+      {{#if  isThinking}}
+          <li class="active"><a href="/trainings/thinking">Мышление</a></li>
+        {{else}}
+          <li><a href="/trainings/thinking">Мышление</a></li>
+        {{/if}}  
 
       {{#if isAuth}}
         {{#if isAdd}}
