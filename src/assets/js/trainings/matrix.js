@@ -2,25 +2,23 @@ import { gameStatus, getGameAudioStatus, gameLevel } from '../game';
 import { startTimer } from '../components/timer';
 import { initHelpButtons, initOverlay, closeTrainingHandler } from '../components/helpButtons';
 import initAudio from '../components/audio';
+import { makeMatrix } from '../utils/matrix';
 
 export const gameLevelInfo = {
   [gameLevel.easy.levelName]: {
     gameLevel: gameLevel.easy,
-    termsCount: 2,
-    maxTerm: 20,
+    termsCount: 4,
     answersCount: 3,
   },
   [gameLevel.medium.levelName]: {
     gameLevel: gameLevel.medium,
-    termsCount: 3,
-    maxTerm: 40,
-    answersCount: 4,
+    termsCount: 5,
+    answersCount: 5,
   },
   [gameLevel.hard.levelName]: {
     gameLevel: gameLevel.hard,
-    termsCount: 4,
-    maxTerm: 60,
-    answersCount: 5,
+    termsCount: 6,
+    answersCount: 7,
   },
 };
 
@@ -32,64 +30,64 @@ function audioSound(audioName) {
   }
 }
 
-function mixAnswers(arr) {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
-
-function getAnswers(correctAnswer, maxTerm, answersCount) {
-  const answers = [correctAnswer];
-  while (answers.length < answersCount) {
-    const nextAnswer = correctAnswer + Math.round((Math.random() - 0.5) * maxTerm * 0.5);
-    if (!answers.includes(nextAnswer)) {
-      answers.push(nextAnswer);
-    }
-  }
-  return mixAnswers(answers);
-}
-
-function generateExample({ termsCount, maxTerm, answersCount }) {
-  const terms = Array(termsCount).fill(0).map(() => Math.round(Math.random() * maxTerm) + 1);
+function generateMatrix({ termsCount, answersCount }) {
+  /* const terms = Array(termsCount).fill(0).map(() => Math.round(Math.random() * maxTerm) + 1);
   const correctAnswer = terms.reduce((sum, term) => sum + term);
   const answers = getAnswers(correctAnswer, maxTerm, answersCount);
 
   return {
-    question: terms.join(' + '),
+    matrix: terms.join(' + '),
     correctAnswer,
     answers,
+  }; */
+
+  const matrixArr = makeMatrix(termsCount);
+  return {
+    matrix: matrixArr.store,
+    size: matrixArr.size,
   };
 }
 
-function initQuestion(question) {
-  const questionContainer = document.createElement('div');
-  questionContainer.classList.add('training__question');
-  questionContainer.textContent = question;
-  return questionContainer;
+function initMatrix(matrix) {
+  const matrixContainer = document.createElement('div');
+  matrixContainer.classList.add('training__matrix');
+  matrixContainer.style.gridTemplateColumns = `repeat(${matrix.size}, 1fr)`;
+
+  matrix.matrix.forEach((item) => {
+    const matrixItem = document.createElement('div');
+    matrixItem.classList.add('training__matrix__item');
+    matrixItem.textContent = item;
+    matrixItem.dataset.id = item;
+    matrixContainer.appendChild(matrixItem);
+  });
+
+  return matrixContainer;
 }
 
-function initAnswers(example, successHandler, failHandler) {
+function initAnswers(matrix, successHandler, failHandler) {
   const answersContainer = document.createElement('div');
   answersContainer.classList.add('training__answers');
 
-  example.answers.forEach((answer) => {
+  /* matrix.answers.forEach((answer) => {
     const button = document.createElement('button');
     button.classList.add('btn', 'btn-lg');
     button.textContent = answer;
-    button.addEventListener('click', example.correctAnswer === answer
+    button.addEventListener('click', matrix.correctAnswer === answer
       ? successHandler
       : failHandler);
     answersContainer.appendChild(button);
-  });
+  }); */
 
   return answersContainer;
 }
 
-function renderExample(gameObj) {
-  const { container, level, example } = gameObj;
+function renderMatrix(gameObj) {
+  const { container, level, matrix } = gameObj;
   container.innerHTML = '';
 
-  // init question(example to addition) container
-  const question = initQuestion(example.question);
-  container.appendChild(question);
+  // init matrix square container
+  const matrixSquare = initMatrix(matrix);
+  container.appendChild(matrixSquare);
 
   const scoreItem = document.querySelector('.score__item');
   scoreItem.textContent = gameObj.score;
@@ -100,8 +98,8 @@ function renderExample(gameObj) {
   const successHandler = () => {
     newGameState.score += 1;
     if (newGameState.status === gameStatus.start) {
-      const newExample = generateExample(level);
-      renderExample({ ...newGameState, example: newExample });
+      const newExample = generateMatrix(level);
+      renderMatrix({ ...newGameState, example: newExample });
 
       const audioAllowing = getGameAudioStatus();
       if (audioAllowing) {
@@ -112,8 +110,8 @@ function renderExample(gameObj) {
 
   const failHandler = () => {
     if (newGameState.status === gameStatus.start) {
-      const newExample = generateExample(gameObj.level);
-      renderExample({ ...newGameState, example: newExample });
+      const newExample = generateMatrix(gameObj.level);
+      renderMatrix({ ...newGameState, example: newExample });
 
       const audioAllowing = getGameAudioStatus();
       if (audioAllowing) {
@@ -122,7 +120,7 @@ function renderExample(gameObj) {
     }
   };
 
-  const answers = initAnswers(example, successHandler, failHandler);
+  const answers = initAnswers(matrix, successHandler, failHandler);
   container.appendChild(answers);
 }
 
@@ -183,9 +181,9 @@ function renderGame(gameState) {
     gameContainer.innerHTML = '';
     const result = renderInfo(gameState);
 
-    const exampleContainer = document.createElement('div');
-    exampleContainer.classList.add('training__game');
-    gameContainer.appendChild(exampleContainer);
+    const matrixContainer = document.createElement('div');
+    matrixContainer.classList.add('training__game');
+    gameContainer.appendChild(matrixContainer);
 
     const buttonsContainer = initHelpButtons();
     gameContainer.appendChild(buttonsContainer);
@@ -198,7 +196,7 @@ function renderGame(gameState) {
     gameContainer.appendChild(audio);
 
     startTimer(gameState.duration, result.timerContainer, () => { stopGame(gameState); });
-    renderExample({ ...gameState, container: exampleContainer });
+    renderMatrix({ ...gameState, container: matrixContainer });
   }
 }
 
@@ -208,15 +206,15 @@ export function initGame(level, gameContainer, trainingInfo, duration = 60) {
     level,
     status: gameStatus.init,
     gameContainer,
-    example: {},
+    matrix: {},
     duration,
     trainingInfo,
   };
 }
 
 export function startGame(gameObj) {
-  const example = generateExample(gameObj.level);
-  const newGameState = { ...gameObj, status: gameStatus.start, example };
+  const matrix = generateMatrix(gameObj.level);
+  const newGameState = { ...gameObj, status: gameStatus.start, matrix };
   renderGame(newGameState);
 
   return newGameState;

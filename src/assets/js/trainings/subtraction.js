@@ -89,7 +89,7 @@ function renderExample(gameObj) {
   const { container, level, example } = gameObj;
   container.innerHTML = '';
 
-  // init question(example to sum) container
+  // init question(example to subtraction) container
   const question = initQuestion(example.question);
   container.appendChild(question);
 
