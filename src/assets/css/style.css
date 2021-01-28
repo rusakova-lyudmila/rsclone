@@ -689,7 +689,7 @@ h2 {
   width: 90%;
   margin: auto;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(44, 128, 165, 0.5);
 }
 
 .training__matrix__item {
@@ -709,9 +709,21 @@ h2 {
       -ms-user-select: none;
           user-select: none;
   color: #333;
-  background-color: #52d1ca;
+  background-color: #fff;
   -webkit-transition: 0.2s ease;
   transition: 0.2s ease;
+}
+
+.training__matrix__item_green {
+  background-color: #a8c33e;
+}
+
+.training__matrix__item_red {
+  background-color: #ff5b5d;
+}
+
+.training__matrix__item_white {
+  background-color: #fff;
 }
 
 .training__matrix__item:hover {

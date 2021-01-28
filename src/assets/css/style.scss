@@ -569,7 +569,7 @@ h2 {
         width: 90%;
         margin: auto;
         padding: 10px;
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(44, 128, 165, 0.5);
 	
         &__item {
             display: flex;
@@ -579,8 +579,20 @@ h2 {
             border-radius: 5px;
             user-select: none;
             color: #333;
-            background-color: $cyan-color;
+            background-color: #fff;
             transition: 0.2s ease;
+
+            &_green {
+                background-color: $green-color;
+            }
+
+            &_red {
+                background-color: $magenta-color;
+            }
+
+            &_white {
+                background-color: #fff;
+            }
 
             &:hover {
                 cursor: pointer;

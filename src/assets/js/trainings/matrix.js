@@ -2,23 +2,26 @@ import { gameStatus, getGameAudioStatus, gameLevel } from '../game';
 import { startTimer } from '../components/timer';
 import { initHelpButtons, initOverlay, closeTrainingHandler } from '../components/helpButtons';
 import initAudio from '../components/audio';
-import { makeMatrix } from '../utils/matrix';
+import { makeMatrix, shuffleMatrix } from '../utils/matrix';
 
 export const gameLevelInfo = {
   [gameLevel.easy.levelName]: {
     gameLevel: gameLevel.easy,
     termsCount: 4,
-    answersCount: 3,
+    answersCount: 5,
+    delay: 3,
   },
   [gameLevel.medium.levelName]: {
     gameLevel: gameLevel.medium,
     termsCount: 5,
-    answersCount: 5,
+    answersCount: 7,
+    delay: 4,
   },
   [gameLevel.hard.levelName]: {
     gameLevel: gameLevel.hard,
     termsCount: 6,
-    answersCount: 7,
+    answersCount: 9,
+    delay: 5,
   },
 };
 
@@ -31,21 +34,25 @@ function audioSound(audioName) {
 }
 
 function generateMatrix({ termsCount, answersCount }) {
-  /* const terms = Array(termsCount).fill(0).map(() => Math.round(Math.random() * maxTerm) + 1);
-  const correctAnswer = terms.reduce((sum, term) => sum + term);
-  const answers = getAnswers(correctAnswer, maxTerm, answersCount);
+  const answers = Array(answersCount).fill(1);
+  const matrixArr = makeMatrix(termsCount, answers);
+  return shuffleMatrix(matrixArr);
+}
 
-  return {
-    matrix: terms.join(' + '),
-    correctAnswer,
-    answers,
-  }; */
+function initAnswers(matrix, successHandler, failHandler) {
+  const matrixContainer = document.createElement('div');
+  matrixContainer.classList.add('training__matrix');
+  matrixContainer.style.gridTemplateColumns = `repeat(${matrix.size}, 1fr)`;
 
-  const matrixArr = makeMatrix(termsCount);
-  return {
-    matrix: matrixArr.store,
-    size: matrixArr.size,
-  };
+  matrix.store.forEach((item) => {
+    const matrixItem = document.createElement('div');
+    matrixItem.classList.add('training__matrix__item', 'training__matrix__item_white');
+    matrixItem.dataset.id = item;
+    matrixItem.onclick = item === 1 ? successHandler : failHandler;
+    matrixContainer.appendChild(matrixItem);
+  });
+
+  return matrixContainer;
 }
 
 function initMatrix(matrix) {
@@ -53,10 +60,10 @@ function initMatrix(matrix) {
   matrixContainer.classList.add('training__matrix');
   matrixContainer.style.gridTemplateColumns = `repeat(${matrix.size}, 1fr)`;
 
-  matrix.matrix.forEach((item) => {
+  matrix.store.forEach((item) => {
     const matrixItem = document.createElement('div');
     matrixItem.classList.add('training__matrix__item');
-    matrixItem.textContent = item;
+    matrixItem.classList.add(item === 1 ? 'training__matrix__item_green' : 'training__matrix__item_white');
     matrixItem.dataset.id = item;
     matrixContainer.appendChild(matrixItem);
   });
@@ -64,64 +71,71 @@ function initMatrix(matrix) {
   return matrixContainer;
 }
 
-function initAnswers(matrix, successHandler, failHandler) {
-  const answersContainer = document.createElement('div');
-  answersContainer.classList.add('training__answers');
-
-  /* matrix.answers.forEach((answer) => {
-    const button = document.createElement('button');
-    button.classList.add('btn', 'btn-lg');
-    button.textContent = answer;
-    button.addEventListener('click', matrix.correctAnswer === answer
-      ? successHandler
-      : failHandler);
-    answersContainer.appendChild(button);
-  }); */
-
-  return answersContainer;
+function displayScore(value) {
+  const scoreItem = document.querySelector('.score__item');
+  scoreItem.textContent = value;
 }
 
 function renderMatrix(gameObj) {
-  const { container, level, matrix } = gameObj;
+  const { container, matrix, level } = gameObj;
   container.innerHTML = '';
 
   // init matrix square container
   const matrixSquare = initMatrix(matrix);
   container.appendChild(matrixSquare);
 
-  const scoreItem = document.querySelector('.score__item');
-  scoreItem.textContent = gameObj.score;
+  displayScore(gameObj.score);
 
-  // init answer buttons container
   const newGameState = { ...gameObj };
+  let attemptCount = 0;
 
-  const successHandler = () => {
+  const successHandler = (e) => {
     newGameState.score += 1;
-    if (newGameState.status === gameStatus.start) {
-      const newExample = generateMatrix(level);
-      renderMatrix({ ...newGameState, example: newExample });
+    attemptCount += 1;
+    e.target.classList.add('training__matrix__item_green');
+    e.target.onclick = null;
 
-      const audioAllowing = getGameAudioStatus();
-      if (audioAllowing) {
-        audioSound('right-answer');
-      }
+    displayScore(newGameState.score);
+
+    const audioAllowing = getGameAudioStatus();
+    if (audioAllowing) {
+      audioSound('right-answer');
+    }
+
+    if (attemptCount === level.answersCount) {
+      setTimeout(() => {
+        const newMatrix = generateMatrix(level);
+        renderMatrix({ ...newGameState, matrix: newMatrix });
+      }, 500);
     }
   };
 
-  const failHandler = () => {
-    if (newGameState.status === gameStatus.start) {
-      const newExample = generateMatrix(gameObj.level);
-      renderMatrix({ ...newGameState, example: newExample });
+  const failHandler = (e) => {
+    newGameState.score -= 1;
+    attemptCount += 1;
+    e.target.classList.add('training__matrix__item_red');
+    e.target.onclick = null;
 
-      const audioAllowing = getGameAudioStatus();
-      if (audioAllowing) {
-        audioSound('wrong-answer');
-      }
+    displayScore(newGameState.score);
+
+    const audioAllowing = getGameAudioStatus();
+    if (audioAllowing) {
+      audioSound('wrong-answer');
+    }
+
+    if (attemptCount === level.answersCount) {
+      setTimeout(() => {
+        const newExample = generateMatrix(level);
+        renderMatrix({ ...newGameState, matrix: newExample });
+      }, 500);
     }
   };
 
   const answers = initAnswers(matrix, successHandler, failHandler);
-  container.appendChild(answers);
+  setTimeout(() => {
+    container.innerHTML = '';
+    container.appendChild(answers);
+  }, level.delay * 1000);
 }
 
 function renderInfo(gameState) {
