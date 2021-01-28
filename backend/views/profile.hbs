@@ -1,7 +1,7 @@
 <h1>Профиль</h1>
 
 <div class="row">
-  <div class="col s6">
+  <div class="col s12 m12 l6">
     {{#if user.avatarUrl}}
       <img 
         class="avatar"
@@ -13,7 +13,7 @@
     {{/if}}
   </div>
 
-  <div class="col s6">
+  <div class="col s12 m12 l6">
     <form action="/profile" method="POST" enctype="multipart/form-data">
       <p>Ваше email: <strong>{{user.email}}</strong></p>
 
@@ -38,4 +38,31 @@
       <button type="submit" class="btn">Изменить</button>
     </form>
   </div>
+</div>
+<hr>
+<div class="col s12">
+      <table class="responsive-table centered">
+        <thead>
+          <tr>
+              <th>№ <br>п/п</th>
+              <th>Название тренажера</th>
+              <th>Тип тренажера</th>
+              <th>Количество баллов</th>
+              <th>Дата тренировки</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each statistics}}
+          <tr>
+            <td>{{addOne @index}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.typeTraining}}</td>
+            <td>{{this.score}}</td>
+            <td>{{this.lastUpdate}}</td>
+          </tr>
+           {{/each}}
+        </tbody>
+      </table>
+
 </div>

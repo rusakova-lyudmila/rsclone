@@ -37,7 +37,7 @@ router.post('/', auth, statisticValidators, async (req, res) => {
 
   try {
     await stat.save()
-    res.redirect('/')
+    res.redirect('/trainings')
   } catch (e) {
     console.log(e)
   }
