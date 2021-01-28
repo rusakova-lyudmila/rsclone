@@ -1,6 +1,13 @@
 const {Router} = require('express')
 const router = Router()
 
+router.get('/', (req, res) => {
+  res.render('trainings/index', {
+    title: 'Тренажеры',
+    isTrainings: true
+  })
+})
+
 router.get('/attention', (req, res) => {
     res.render('trainings/attention/click', {
       title: 'Тренажер "Клик-клик"',

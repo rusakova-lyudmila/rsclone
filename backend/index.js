@@ -5,6 +5,7 @@ const flash = require('connect-flash')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const session = require('express-session')
+const cors = require('cors');
 const MongoStore = require('connect-mongodb-session')(session)
 const homeRoutes = require('./routes/home')
 const cardRoutes = require('./routes/card')
@@ -38,6 +39,7 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(express.urlencoded({extended: true}))
