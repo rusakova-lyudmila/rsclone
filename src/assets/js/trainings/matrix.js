@@ -2,25 +2,26 @@ import { gameStatus, getGameAudioStatus, gameLevel } from '../game';
 import { startTimer } from '../components/timer';
 import { initHelpButtons, initOverlay, closeTrainingHandler } from '../components/helpButtons';
 import initAudio from '../components/audio';
+import { makeMatrix, shuffleMatrix } from '../utils/matrix';
 
 export const gameLevelInfo = {
   [gameLevel.easy.levelName]: {
     gameLevel: gameLevel.easy,
-    termsCount: 2,
-    maxTerm: 20,
-    answersCount: 3,
+    termsCount: 4,
+    answersCount: 5,
+    delay: 3,
   },
   [gameLevel.medium.levelName]: {
     gameLevel: gameLevel.medium,
-    termsCount: 3,
-    maxTerm: 40,
-    answersCount: 4,
+    termsCount: 5,
+    answersCount: 7,
+    delay: 4,
   },
   [gameLevel.hard.levelName]: {
     gameLevel: gameLevel.hard,
-    termsCount: 4,
-    maxTerm: 60,
-    answersCount: 5,
+    termsCount: 6,
+    answersCount: 9,
+    delay: 5,
   },
 };
 
@@ -32,98 +33,109 @@ function audioSound(audioName) {
   }
 }
 
-function mixAnswers(arr) {
-  return [...arr].sort(() => Math.random() - 0.5);
+function generateMatrix({ termsCount, answersCount }) {
+  const answers = Array(answersCount).fill(1);
+  const matrixArr = makeMatrix(termsCount, answers);
+  return shuffleMatrix(matrixArr);
 }
 
-function getAnswers(correctAnswer, maxTerm, answersCount) {
-  const answers = [correctAnswer];
-  while (answers.length < answersCount) {
-    const nextAnswer = correctAnswer + Math.round((Math.random() - 0.5) * maxTerm * 0.5);
-    if (!answers.includes(nextAnswer)) {
-      answers.push(nextAnswer);
-    }
-  }
-  return mixAnswers(answers);
-}
+function initAnswers(matrix, successHandler, failHandler) {
+  const matrixContainer = document.createElement('div');
+  matrixContainer.classList.add('training__matrix');
+  matrixContainer.style.gridTemplateColumns = `repeat(${matrix.size}, 1fr)`;
 
-function generateExample({ termsCount, maxTerm, answersCount }) {
-  const terms = Array(termsCount).fill(0).map(() => Math.round(Math.random() * maxTerm) + 1);
-  const correctAnswer = terms.reduce((sum, term) => sum + term);
-  const answers = getAnswers(correctAnswer, maxTerm, answersCount);
-
-  return {
-    question: terms.join(' + '),
-    correctAnswer,
-    answers,
-  };
-}
-
-function initQuestion(question) {
-  const questionContainer = document.createElement('div');
-  questionContainer.classList.add('training__question');
-  questionContainer.textContent = question;
-  return questionContainer;
-}
-
-function initAnswers(example, successHandler, failHandler) {
-  const answersContainer = document.createElement('div');
-  answersContainer.classList.add('training__answers');
-
-  example.answers.forEach((answer) => {
-    const button = document.createElement('button');
-    button.classList.add('btn', 'btn-lg');
-    button.textContent = answer;
-    button.addEventListener('click', example.correctAnswer === answer
-      ? successHandler
-      : failHandler);
-    answersContainer.appendChild(button);
+  matrix.store.forEach((item) => {
+    const matrixItem = document.createElement('div');
+    matrixItem.classList.add('training__matrix__item', 'training__matrix__item_white');
+    matrixItem.dataset.id = item;
+    matrixItem.onclick = item === 1 ? successHandler : failHandler;
+    matrixContainer.appendChild(matrixItem);
   });
 
-  return answersContainer;
+  return matrixContainer;
 }
 
-function renderExample(gameObj) {
-  const { container, level, example } = gameObj;
+function initMatrix(matrix) {
+  const matrixContainer = document.createElement('div');
+  matrixContainer.classList.add('training__matrix');
+  matrixContainer.style.gridTemplateColumns = `repeat(${matrix.size}, 1fr)`;
+
+  matrix.store.forEach((item) => {
+    const matrixItem = document.createElement('div');
+    matrixItem.classList.add('training__matrix__item');
+    matrixItem.classList.add(item === 1 ? 'training__matrix__item_green' : 'training__matrix__item_white');
+    matrixItem.dataset.id = item;
+    matrixContainer.appendChild(matrixItem);
+  });
+
+  return matrixContainer;
+}
+
+function displayScore(value) {
+  const scoreItem = document.querySelector('.score__item');
+  scoreItem.textContent = value;
+}
+
+function renderMatrix(gameObj) {
+  const { container, matrix, level } = gameObj;
   container.innerHTML = '';
 
-  // init question(example to addition) container
-  const question = initQuestion(example.question);
-  container.appendChild(question);
+  // init matrix square container
+  const matrixSquare = initMatrix(matrix);
+  container.appendChild(matrixSquare);
 
-  const scoreItem = document.querySelector('.score__item');
-  scoreItem.textContent = gameObj.score;
+  displayScore(gameObj.score);
 
-  // init answer buttons container
   const newGameState = { ...gameObj };
+  let attemptCount = 0;
 
-  const successHandler = () => {
+  const successHandler = (e) => {
     newGameState.score += 1;
-    if (newGameState.status === gameStatus.start) {
-      const newExample = generateExample(level);
-      renderExample({ ...newGameState, example: newExample });
+    attemptCount += 1;
+    e.target.classList.add('training__matrix__item_green');
+    e.target.onclick = null;
 
-      const audioAllowing = getGameAudioStatus();
-      if (audioAllowing) {
-        audioSound('right-answer');
-      }
+    displayScore(newGameState.score);
+
+    const audioAllowing = getGameAudioStatus();
+    if (audioAllowing) {
+      audioSound('right-answer');
+    }
+
+    if (attemptCount === level.answersCount) {
+      setTimeout(() => {
+        const newMatrix = generateMatrix(level);
+        renderMatrix({ ...newGameState, matrix: newMatrix });
+      }, 500);
     }
   };
 
-  const failHandler = () => {
-    if (newGameState.status === gameStatus.start) {
-      const newExample = generateExample(gameObj.level);
-      renderExample({ ...newGameState, example: newExample });
+  const failHandler = (e) => {
+    newGameState.score -= 1;
+    attemptCount += 1;
+    e.target.classList.add('training__matrix__item_red');
+    e.target.onclick = null;
 
-      const audioAllowing = getGameAudioStatus();
-      if (audioAllowing) {
-        audioSound('wrong-answer');
-      }
+    displayScore(newGameState.score);
+
+    const audioAllowing = getGameAudioStatus();
+    if (audioAllowing) {
+      audioSound('wrong-answer');
+    }
+
+    if (attemptCount === level.answersCount) {
+      setTimeout(() => {
+        const newExample = generateMatrix(level);
+        renderMatrix({ ...newGameState, matrix: newExample });
+      }, 500);
     }
   };
 
-  const answers = initAnswers(example, successHandler, failHandler);
-  container.appendChild(answers);
+  const answers = initAnswers(matrix, successHandler, failHandler);
+  setTimeout(() => {
+    container.innerHTML = '';
+    container.appendChild(answers);
+  }, level.delay * 1000);
 }
 
 function renderInfo(gameState) {
@@ -183,9 +195,9 @@ function renderGame(gameState) {
     gameContainer.innerHTML = '';
     const result = renderInfo(gameState);
 
-    const exampleContainer = document.createElement('div');
-    exampleContainer.classList.add('training__game');
-    gameContainer.appendChild(exampleContainer);
+    const matrixContainer = document.createElement('div');
+    matrixContainer.classList.add('training__game');
+    gameContainer.appendChild(matrixContainer);
 
     const buttonsContainer = initHelpButtons();
     gameContainer.appendChild(buttonsContainer);
@@ -198,7 +210,7 @@ function renderGame(gameState) {
     gameContainer.appendChild(audio);
 
     startTimer(gameState.duration, result.timerContainer, () => { stopGame(gameState); });
-    renderExample({ ...gameState, container: exampleContainer });
+    renderMatrix({ ...gameState, container: matrixContainer });
   }
 }
 
@@ -208,15 +220,15 @@ export function initGame(level, gameContainer, trainingInfo, duration = 60) {
     level,
     status: gameStatus.init,
     gameContainer,
-    example: {},
+    matrix: {},
     duration,
     trainingInfo,
   };
 }
 
 export function startGame(gameObj) {
-  const example = generateExample(gameObj.level);
-  const newGameState = { ...gameObj, status: gameStatus.start, example };
+  const matrix = generateMatrix(gameObj.level);
+  const newGameState = { ...gameObj, status: gameStatus.start, matrix };
   renderGame(newGameState);
 
   return newGameState;

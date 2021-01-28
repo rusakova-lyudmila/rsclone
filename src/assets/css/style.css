@@ -10,7 +10,7 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
   min-height: 100vh;
-  background-image: url("../img/bg.png");
+  background-image: url("../img/bg/bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-color: rgba(255, 255, 255, 0.7);
@@ -444,6 +444,11 @@ h2 {
           justify-content: space-evenly;
   background-position: center;
   background-size: cover;
+  border: 1px solid #2c80a5;
+}
+
+.training__card.matrix {
+  height: 75vh;
 }
 
 .training .cards__item:hover {
@@ -469,7 +474,6 @@ h2 {
   width: 100%;
   height: 100%;
   color: #2c80a5;
-  background: rgba(255, 255, 255, 0.5);
 }
 
 .training__start p, .training__finish p {
@@ -676,6 +680,77 @@ h2 {
           box-shadow: 1px 15px 30px -12px #52d1ca;
 }
 
+.training__matrix {
+  display: -ms-grid;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-gap: 2px;
+  max-width: 420px;
+  width: 90%;
+  margin: auto;
+  padding: 10px;
+  background: rgba(44, 128, 165, 0.5);
+}
+
+.training__matrix__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 2rem;
+  border-radius: 5px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  color: #333;
+  background-color: #fff;
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+}
+
+.training__matrix__item_green {
+  background-color: #a8c33e;
+}
+
+.training__matrix__item_red {
+  background-color: #ff5b5d;
+}
+
+.training__matrix__item_white {
+  background-color: #fff;
+}
+
+.training__matrix__item:hover {
+  cursor: pointer;
+  -webkit-transform: translateY(1px) scale(1);
+          transform: translateY(1px) scale(1);
+  color: #fff;
+  background-color: #2c80a5;
+}
+
+.training__matrix > *:first-child {
+  -ms-grid-row: 1;
+  grid-row: 1 / 1;
+  -ms-grid-column: 1;
+  grid-column: 1 / 1;
+}
+
+.training__matrix:before {
+  content: '';
+  width: 0;
+  padding-bottom: 100%;
+  -ms-grid-row: 1;
+  grid-row: 1 / 1;
+  -ms-grid-column: 1;
+  grid-column: 1 / 1;
+}
+
 .finish__score p {
   color: #2c80a5;
 }
@@ -684,6 +759,26 @@ h2 {
   font-size: 2rem;
   font-weight: bold;
   color: #ff5b5d;
+}
+
+.addition {
+  background-color: rgba(255, 255, 255, 0.4);
+  background-blend-mode: soft-light;
+}
+
+.subtraction {
+  background-color: rgba(255, 241, 179, 0.8);
+  background-blend-mode: soft-light;
+}
+
+.multiplication {
+  background-color: rgba(237, 224, 194, 0.5);
+  background-blend-mode: soft-light;
+}
+
+.matrix {
+  background-color: rgba(203, 241, 239, 0.4);
+  background-blend-mode: soft-light;
 }
 
 .statistic-container table {

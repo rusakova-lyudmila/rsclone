@@ -2,7 +2,7 @@ export const gameLevel = {
   easy: {
     levelName: 'easy',
     name: 'легкий',
-    duration: 6,
+    duration: 30,
   },
   medium: {
     levelName: 'medium',
