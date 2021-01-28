@@ -5,7 +5,10 @@ const Statistics = require('../models/statistic')
 const router = Router()
 
 router.get('/', auth, async (req, res) => {
-  const statistics = await Statistics.find({userId: req.user._id}).sort({"score":1});
+  const statistics = await Statistics
+  .find({userId: req.user._id})
+  .sort({"score":1});
+  
   res.render('profile', {
     title: 'Профиль',
     isProfile: true,

@@ -24,8 +24,8 @@
       </div>
 
       <div class="file-field input-field">
-        <div class="btn">
-          <span>Аватар</span>
+        <div class="btn red">
+          <span>Изменить аватар</span>
           <input type="file" name="avatar">
         </div>
         <div class="file-path-wrapper">
@@ -35,11 +35,12 @@
 
       <input type="hidden" name="_csrf" value="{{csrf}}">
 
-      <button type="submit" class="btn">Изменить</button>
+      <button type="submit" class="btn orange">Сохранить изменения</button>
     </form>
   </div>
 </div>
 <hr>
+{{#if statistics}}
 <div class="col s12">
       <table class="responsive-table centered">
         <thead>
@@ -64,5 +65,10 @@
            {{/each}}
         </tbody>
       </table>
-
 </div>
+{{else}}
+<div class="center-align">
+  <img src="/assets/images/cat.gif" alt="Cat" style="width: 100px;">
+  <p>Статистики пока нет...Перейти к <a href="/trainings">тренировкам.</a></p>
+</div>
+{{/if}}
