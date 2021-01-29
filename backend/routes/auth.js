@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
         res.redirect('/auth/login#login')
       }
     } else {
-      req.flash('loginError', 'Такого пользователя не существует')
+      req.flash('loginError', 'Такого пользователя нет')
       res.redirect('/auth/login#login')
     }
   } catch (e) {
