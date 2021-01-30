@@ -298,6 +298,7 @@ h2 {
         .card__descr {
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
         .card__name {
@@ -384,7 +385,8 @@ h2 {
         background-size: cover;
         border: 1px solid $blue-color;
 
-        &.matrix {
+        &.matrix,
+        &.click {
             height: 75vh;
         }
     }
@@ -422,7 +424,9 @@ h2 {
         }
 
         select {
+            display: block;
             width: 180px;
+            height: auto;
             color: $blue-color;
             border: 2px solid $blue-color;
             outline: none;
@@ -565,6 +569,7 @@ h2 {
     &__answers {
         .btn {
             min-width: 4.3rem;
+            height: auto;
             margin: 1rem;
             font-size: 2rem;
             color: #fff;
@@ -601,11 +606,11 @@ h2 {
             transition: 0.2s ease;
 
             &_green {
-                background-color: $green-color;
+                background-color: $green-color !important;
             }
 
             &_red {
-                background-color: $magenta-color;
+                background-color: $magenta-color !important;
             }
 
             &_white {
@@ -664,6 +669,11 @@ h2 {
 
 .matrix {
     background-color: rgba(203, 241, 239, 0.4);
+    background-blend-mode: soft-light;
+}
+
+.click {
+    background-color: rgba(255, 255, 255, 0.8);
     background-blend-mode: soft-light;
 }
 

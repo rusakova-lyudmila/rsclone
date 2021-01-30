@@ -355,6 +355,9 @@ h2 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .cards__item .card__name {
@@ -463,7 +466,7 @@ h2 {
   border: 1px solid #2c80a5;
 }
 
-.training__card.matrix {
+.training__card.matrix, .training__card.click {
   height: 75vh;
 }
 
@@ -505,7 +508,9 @@ h2 {
 }
 
 .training__select select, .training__finish select {
+  display: block;
   width: 180px;
+  height: auto;
   color: #2c80a5;
   border: 2px solid #2c80a5;
   outline: none;
@@ -679,6 +684,7 @@ h2 {
 
 .training__answers .btn {
   min-width: 4.3rem;
+  height: auto;
   margin: 1rem;
   font-size: 2rem;
   color: #fff;
@@ -731,11 +737,11 @@ h2 {
 }
 
 .training__matrix__item_green {
-  background-color: #a8c33e;
+  background-color: #a8c33e !important;
 }
 
 .training__matrix__item_red {
-  background-color: #ff5b5d;
+  background-color: #ff5b5d !important;
 }
 
 .training__matrix__item_white {
@@ -794,6 +800,11 @@ h2 {
 
 .matrix {
   background-color: rgba(203, 241, 239, 0.4);
+  background-blend-mode: soft-light;
+}
+
+.click {
+  background-color: rgba(255, 255, 255, 0.8);
   background-blend-mode: soft-light;
 }
 
