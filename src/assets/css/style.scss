@@ -366,7 +366,8 @@ h2 {
         background-size: cover;
         border: 1px solid $blue-color;
 
-        &.matrix {
+        &.matrix,
+        &.click {
             height: 75vh;
         }
     }
@@ -581,6 +582,10 @@ h2 {
             color: #333;
             background-color: #fff;
             transition: 0.2s ease;
+            
+            &_white {
+                background-color: #fff;
+            }
 
             &_green {
                 background-color: $green-color;
@@ -588,11 +593,7 @@ h2 {
 
             &_red {
                 background-color: $magenta-color;
-            }
-
-            &_white {
-                background-color: #fff;
-            }
+            }            
 
             &:hover {
                 cursor: pointer;
@@ -646,6 +647,11 @@ h2 {
 
 .matrix {
     background-color: rgba(203, 241, 239, 0.4);
+    background-blend-mode: soft-light;
+}
+
+.click {
+    background-color: rgba(255, 255, 255, 0.8);
     background-blend-mode: soft-light;
 }
 

@@ -1,6 +1,6 @@
 import { trainingsItems } from './trainings';
 import { gameLevel } from './game';
-import { initGame, startGame, gameLevelInfo } from './trainings/matrix';
+import { initGame, startGame, gameLevelInfo } from './trainings/click';
 
 function replaceContent(currentBlock, newBlock, parentBlock) {
   if (currentBlock) {

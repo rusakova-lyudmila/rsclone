@@ -447,7 +447,7 @@ h2 {
   border: 1px solid #2c80a5;
 }
 
-.training__card.matrix {
+.training__card.matrix, .training__card.click {
   height: 75vh;
 }
 
@@ -714,16 +714,16 @@ h2 {
   transition: 0.2s ease;
 }
 
+.training__matrix__item_white {
+  background-color: #fff;
+}
+
 .training__matrix__item_green {
   background-color: #a8c33e;
 }
 
 .training__matrix__item_red {
   background-color: #ff5b5d;
-}
-
-.training__matrix__item_white {
-  background-color: #fff;
 }
 
 .training__matrix__item:hover {
@@ -778,6 +778,11 @@ h2 {
 
 .matrix {
   background-color: rgba(203, 241, 239, 0.4);
+  background-blend-mode: soft-light;
+}
+
+.click {
+  background-color: rgba(255, 255, 255, 0.8);
   background-blend-mode: soft-light;
 }
 
