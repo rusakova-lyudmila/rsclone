@@ -34,13 +34,13 @@ exports.registerValidators = [
 
 
 exports.courseValidators = [
-  body('title').isLength({min: 3}).withMessage('Минимальная длинна названия 3 символа').trim(),
+  body('title').isLength({min: 3}).withMessage('Минимальная длина названия 3 символа').trim(),
   body('price').isNumeric().withMessage('Введите корректную цену'),
   body('img', 'Введите корректный Url картинки').isURL()
 ]
 
 exports.statisticValidators = [
-  body('title').isLength({min: 3}).withMessage('Минимальная длинна названия 3 символа').trim(),
+  body('title').isLength({min: 3}).withMessage('Минимальная длина названия 3 символа').trim(),
   body('typeTraining').isLength({min: 3}).withMessage('Введите корректный тип'),
   body('score', 'Некорректная информация').isNumeric()
 ]

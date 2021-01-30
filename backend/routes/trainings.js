@@ -36,8 +36,8 @@ router.get('/logic/addition', (req, res) => {
   })
 })
 
-router.get('/logic/substraction', (req, res) => {
-  res.render('trainings/logic/substraction', {
+router.get('/logic/subtraction', (req, res) => {
+  res.render('trainings/logic/subtraction', {
     title: 'Тренажер "Вычитание"',
     isTrainings: true
   })

@@ -41,11 +41,11 @@
   </div>
   <hr>
   {{#if statistics}}
-  <div class="col s12">
+  <div class="col s12 profile__statistic">
         <table class="responsive-table centered">
           <thead>
             <tr>
-                <th>№ <br>п/п</th>
+                <th>№ п/п</th>
                 <th>Название тренажера</th>
                 <th>Тип тренажера</th>
                 <th>Количество баллов</th>
@@ -60,14 +60,14 @@
               <td>{{this.title}}</td>
               <td>{{this.typeTraining}}</td>
               <td>{{this.score}}</td>
-              <td>{{this.lastUpdate}}</td>
+              <td>{{moment this.lastUpdate format="DD.MM.YYYY HH:mm"}}</td>
             </tr>
             {{/each}}
           </tbody>
         </table>
   </div>
   {{else}}
-  <div class="profile__statistic center-align">
+  <div class="profile__statistic_empty center-align">
     <img src="/assets/images/cat.gif" alt="Cat" style="width: 100px;">
     <p>Статистики пока нет(( Перейти к <a href="/trainings">тренировкам?</a></p>
   </div>

@@ -8,5 +8,5 @@ module.exports = {
 
   addOne(value) {
     return value + 1;
-  }
+  },
 }

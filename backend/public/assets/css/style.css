@@ -808,6 +808,11 @@ h2 {
   background-blend-mode: soft-light;
 }
 
+.unikum {
+  background-color: rgba(255, 255, 255, 0.6);
+  background-blend-mode: soft-light;
+}
+
 .statistic-container table {
   width: 100%;
   margin-top: 20px;
@@ -1010,17 +1015,25 @@ h2 {
 }
 
 .profile__statistic {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.profile__statistic thead {
+  background-color: #cbf1ef;
+}
+
+.profile__statistic_empty {
   width: 100%;
   font-size: 1.3rem;
   font-weight: bold;
   color: #2c80a5;
 }
 
-.profile__statistic a {
+.profile__statistic_empty a {
   color: #ff5b5d;
 }
 
-.profile__statistic a:hover {
+.profile__statistic_empty a:hover {
   color: #ff5b5d;
 }
 

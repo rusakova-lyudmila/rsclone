@@ -677,6 +677,11 @@ h2 {
     background-blend-mode: soft-light;
 }
 
+.unikum {
+    background-color: rgba(255, 255, 255, 0.6);
+    background-blend-mode: soft-light;
+}
+
 .statistic-container {
     table {
         width: 100%;
@@ -875,16 +880,24 @@ h2 {
     }
 
     &__statistic {
-        width: 100%;
-        font-size: 1.3rem;
-        font-weight: bold;
-        color: $blue-color;
+        background: rgba(255, 255, 255, 0.8);
 
-        a {
-            color: $magenta-color;
+        thead {
+            background-color: #cbf1ef;
+        }
+        
+        &_empty {
+            width: 100%;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: $blue-color;
 
-            &:hover {
+            a {
                 color: $magenta-color;
+
+                &:hover {
+                    color: $magenta-color;
+                }
             }
         }
     }
