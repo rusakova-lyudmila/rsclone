@@ -72,7 +72,8 @@ async function start() {
   try {
     await mongoose.connect(keys.MONGODB_URI, {
       useNewUrlParser: true,
-      useFindAndModify: false
+      useFindAndModify: false,
+      useCreateIndex: true
     })
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`)

@@ -1,5 +1,4 @@
 
-
 const toCurrency = price => {
   return new Intl.NumberFormat('ru-RU', {
     currency: 'rub',
