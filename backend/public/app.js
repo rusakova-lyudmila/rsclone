@@ -66,7 +66,8 @@ M.Tabs.init(document.querySelectorAll('.tabs'))
 
 document.addEventListener('DOMContentLoaded', function() {
   const elems = document.querySelectorAll('.sidenav');
-  const dropdowns = document.querySelectorAll('.dropdown-trigger')
+  const dropdowns = document.querySelectorAll('.dropdown-trigger');
+
   for (var i = 0; i < dropdowns.length; i++){
     M.Dropdown.init(dropdowns[i],{});
   }

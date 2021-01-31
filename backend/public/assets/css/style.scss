@@ -325,6 +325,15 @@ h2 {
                 color: $magenta-color;
             }
         }
+
+        .card__link {
+            color: $magenta-color;
+
+            &:hover {
+                text-decoration: none;
+                color: $blue-color;
+            }
+        }
     }
 
     &__block {
@@ -389,6 +398,10 @@ h2 {
         &.click {
             height: 75vh;
         }
+
+        &.comparison {
+            height: 70vh;
+        } 
     }
 
     .cards__item {
@@ -677,9 +690,50 @@ h2 {
     background-blend-mode: soft-light;
 }
 
-.unikum {
+.comparison {
+    max-width: 440px;
     background-color: rgba(255, 255, 255, 0.6);
     background-blend-mode: soft-light;
+
+    &_right {
+        .training__question {
+            background-color: rgba(168, 195, 62, 0.5) !important;
+        }
+    }
+
+    &_wrong {
+        .training__question {
+            background-color: rgba(255, 91, 93, 0.5) !important;
+        }
+    }
+
+    .training {
+        &__question {
+            max-width: 300px;
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color:  rgba(254, 207, 0, 0.3);
+        }
+
+        &__answers {
+            .btn {
+                font-size: 1.3rem;
+            }
+        }
+
+        &__select,
+        &__level {
+            display: none;
+        }
+
+        &__info {
+            justify-content: space-evenly;
+        }
+    }
 }
 
 .statistic-container {
@@ -779,6 +833,7 @@ h2 {
 
     .cards {
         &__item {
+            height: 65vh;
             border: none;
             border-radius: 0;
         }
@@ -1007,16 +1062,26 @@ h2 {
             order: 3;
             margin-top: 5px;
         }
+
+        &__matrix {
+            &__item {
+                font-size: 1.3rem;
+            }
+        }
+
+        &__overlay:not(.hidden) {
+            font-size: 1rem;
+        }
     }
 
-    .adding {
+    .training {
         &__question {
-            font-size: 4rem;
+            font-size: 2.5rem;
         }
 
         &__answers {
             .btn {
-                font-size: 1.5rem;
+                font-size: 1rem;
                 margin: 0.5rem;
             }
         }

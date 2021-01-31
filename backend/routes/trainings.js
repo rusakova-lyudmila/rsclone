@@ -64,9 +64,9 @@ router.get('/thinking', (req, res) => {
   })
 })
 
-router.get('/thinking/unikum', (req, res) => {
-  res.render('trainings/thinking/unikum', {
-    title: 'Тренажер "Уникум"',
+router.get('/thinking/comparison', (req, res) => {
+  res.render('trainings/thinking/comparison', {
+    title: 'Тренажер "Пространственное сравнение"',
     isTrainings: true
   })
 })

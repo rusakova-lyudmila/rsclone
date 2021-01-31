@@ -14,6 +14,7 @@ router.get('/', auth, (req, res) => {
 
 router.post('/', auth, statisticValidators, async (req, res) => {
   const errors = validationResult(req)
+
   if (!errors.isEmpty()) {
     return res.status(422).render('add', {
       title: 'Результат игры',
