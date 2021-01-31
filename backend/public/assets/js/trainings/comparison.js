@@ -37,10 +37,9 @@ function mixAnswers(arr) {
 }
 
 function getAnswers(correctAnswer, maxTerm, answersCount) {
-  console.log(correctAnswer);
   const answers = [correctAnswer];
   while (answers.length < answersCount) {
-    const nextAnswer = Math.abs(correctAnswer + Math.round((Math.random() - 0.5) * maxTerm * 0.5));
+    const nextAnswer = correctAnswer + Math.round((Math.random() - 0.5) * maxTerm * 0.5);
     if (!answers.includes(nextAnswer)) {
       answers.push(nextAnswer);
     }
@@ -50,26 +49,31 @@ function getAnswers(correctAnswer, maxTerm, answersCount) {
 
 function generateExample({ termsCount, maxTerm, answersCount }) {
   const terms = Array(termsCount).fill(0).map(() => Math.round(Math.random() * maxTerm) + 1);
-  const subIntermediate = terms.reduce((diff, term) => diff - term);
-  const correctAnswerIntermediate = Math.abs(subIntermediate);
-  
-  terms[0] += correctAnswerIntermediate * 2;
-  const sub = terms.reduce((diff, term) => diff - term);
-  const correctAnswer = Math.abs(sub);
+  const correctAnswer = terms.reduce((sum, term) => sum + term);
   const answers = getAnswers(correctAnswer, maxTerm, answersCount);
 
   return {
-    question: terms.join(' - '),
+    question: terms.join(' + '),
     correctAnswer,
     answers,
   };
 }
 
 function initQuestion(question) {
-  const questionContainer = document.createElement('div');
-  questionContainer.classList.add('training__question');
-  questionContainer.textContent = question;
-  return questionContainer;
+  const canvasContainer = document.createElement('canvas');
+  canvasContainer.classList.add('training__canvas');
+
+  const canvasContent = canvasContainer.getContext("2d");
+  canvasContent.beginPath();
+  canvasContent.arc(75, 75, 50, 0, Math.PI*2, true);
+  canvasContent.fillStyle = "blue";
+  canvasContent.fill();
+  canvasContent.closePath();
+  canvasContent.stroke();
+
+  //questionContainer.textContent = question;
+
+  return canvasContainer;
 }
 
 function initAnswers(example, successHandler, failHandler) {
@@ -93,7 +97,7 @@ function renderExample(gameObj) {
   const { container, level, example } = gameObj;
   container.innerHTML = '';
 
-  // init question(example to subtraction) container
+  // init question(example to addition) container
   const question = initQuestion(example.question);
   container.appendChild(question);
 
@@ -161,6 +165,7 @@ function stopGame(gameState) {
   const scoreItem = document.querySelector('.score__item');
   const score = scoreItem.textContent;
   const { gameContainer, trainingInfo } = gameState;
+  console.log(gameState);
 
   // init finish training container
   const finishTrainingContainer = document.createElement('div');

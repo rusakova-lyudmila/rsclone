@@ -4,12 +4,14 @@ import { initGame as initAdditionGame, startGame as startAdditionGame, gameLevel
 import { initGame as initSubtractionGame, startGame as startSubtractionGame, gameLevelInfo as gameSubtractionLevelInfo } from './trainings/subtraction.js';
 import { initGame as initClickGame, startGame as startClickGame, gameLevelInfo as gameClickLevelInfo } from './trainings/click.js';
 import { initGame as initMatrixGame, startGame as startMatrixGame, gameLevelInfo as gameMatrixLevelInfo } from './trainings/matrix.js';
+import { initGame as initComparisonGame, startGame as startComparisonGame, gameLevelInfo as gameComparisonLevelInfo } from './trainings/comparison.js';
 
 const initGame = {
   'addition': initAdditionGame,
   'subtraction': initSubtractionGame,
   'click': initClickGame,
   'matrix': initMatrixGame,
+  'comparison': initComparisonGame,
 };
 
 const startGame = {
@@ -17,6 +19,7 @@ const startGame = {
   'subtraction': startSubtractionGame,
   'click': startClickGame,
   'matrix': startMatrixGame,
+  'comparison': startComparisonGame,
 };
 
 const gameLevelInfo = {
@@ -24,6 +27,7 @@ const gameLevelInfo = {
   'subtraction': gameSubtractionLevelInfo,
   'click': gameClickLevelInfo,
   'matrix': gameMatrixLevelInfo,
+  'comparison': gameComparisonLevelInfo,
 };
 
 const urlPath = window.location.pathname;

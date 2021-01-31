@@ -82,8 +82,8 @@ export const trainingsItems = [
     typeKey: 'thinking',
     trainings: [
       {
-        key: 'unikum',
-        name: 'Уникум',
+        key: 'comparison',
+        name: 'Пространственное сравнение',
         image: 'images/thinking/unikum.jpg',
         bg: 'images/thinking/bg/thinking.jpg',
         type: 'Мышление',

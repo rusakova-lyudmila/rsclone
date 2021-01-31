@@ -386,7 +386,8 @@ h2 {
         border: 1px solid $blue-color;
 
         &.matrix,
-        &.click {
+        &.click,
+        &.comparison {
             height: 75vh;
         }
     }
@@ -584,7 +585,8 @@ h2 {
         }
     }
 
-    &__matrix {
+    &__matrix,
+    &__canvas {
         display: grid;
 	    grid-auto-rows: 1fr;
 	    grid-gap: 2px;
@@ -677,7 +679,7 @@ h2 {
     background-blend-mode: soft-light;
 }
 
-.unikum {
+.comparison {
     background-color: rgba(255, 255, 255, 0.6);
     background-blend-mode: soft-light;
 }
@@ -779,6 +781,7 @@ h2 {
 
     .cards {
         &__item {
+            height: 65vh;
             border: none;
             border-radius: 0;
         }
@@ -1007,16 +1010,26 @@ h2 {
             order: 3;
             margin-top: 5px;
         }
+
+        &__matrix {
+            &__item {
+                font-size: 1.3rem;
+            }
+        }
+
+        &__overlay:not(.hidden) {
+            font-size: 1rem;
+        }
     }
 
-    .adding {
+    .training {
         &__question {
-            font-size: 4rem;
+            font-size: 2.5rem;
         }
 
         &__answers {
             .btn {
-                font-size: 1.5rem;
+                font-size: 1rem;
                 margin: 0.5rem;
             }
         }
