@@ -82,22 +82,12 @@ export const trainingsItems = [
     typeKey: 'thinking',
     trainings: [
       {
-<<<<<<< HEAD
         key: 'unikum',
         name: 'Уникум',
         image: 'images/thinking/unikum.jpg',
         bg: 'images/thinking/bg/thinking.jpg',
         type: 'Мышление',
         description: 'Тренажер для развития образного мышления',
-=======
-        key: 'comparison',
-        name: 'Пространственное сравнение',
-        image: 'images/thinking/comparison.png',
-        bg: 'images/thinking/bg/thinking.jpg',
-        type: 'Мышление',
-        description: 'Тренажер для развития образного мышления',
-        rules: '<p>Необходимо запомнить в каком месте расположен закрашенный кружок, если при смене кружков закрашенный кружок останется на свем месте, то нужно нажать на кнопку "Да", иначе - "Нет".</p><p>Если вы ответили верно, то поле вокруг кружков подсветится зеленым цветом, иначе - красным.</p><p>Смена кружков происходит, пока не закончилось время таймера.</p>',
->>>>>>> 27fa0443c4d16b556f889684de4f952b8684b578
       },
     ],
   },

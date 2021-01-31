@@ -37,10 +37,6 @@ function mixAnswers(arr) {
 }
 
 function getAnswers(correctAnswer, maxTerm, answersCount) {
-<<<<<<< HEAD
-=======
-  console.log(correctAnswer);
->>>>>>> 27fa0443c4d16b556f889684de4f952b8684b578
   const answers = [correctAnswer];
   while (answers.length < answersCount) {
     const nextAnswer = Math.abs(correctAnswer + Math.round((Math.random() - 0.5) * maxTerm * 0.5));
@@ -53,18 +49,9 @@ function getAnswers(correctAnswer, maxTerm, answersCount) {
 
 function generateExample({ termsCount, maxTerm, answersCount }) {
   const terms = Array(termsCount).fill(0).map(() => Math.round(Math.random() * maxTerm) + 1);
-<<<<<<< HEAD
   const sub = terms.reduce((diff, term) => diff - term);
   const correctAnswer = Math.abs(sub);
   terms[0] += correctAnswer * 2;
-=======
-  const subIntermediate = terms.reduce((diff, term) => diff - term);
-  const correctAnswerIntermediate = Math.abs(subIntermediate);
-  
-  terms[0] += correctAnswerIntermediate * 2;
-  const sub = terms.reduce((diff, term) => diff - term);
-  const correctAnswer = Math.abs(sub);
->>>>>>> 27fa0443c4d16b556f889684de4f952b8684b578
   const answers = getAnswers(correctAnswer, maxTerm, answersCount);
 
   return {
