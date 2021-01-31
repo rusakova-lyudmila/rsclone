@@ -451,6 +451,10 @@ h2 {
   height: 75vh;
 }
 
+.training__card.comparison {
+  height: 70vh;
+}
+
 .training .cards__item:hover {
   -webkit-transform: scale(1);
           transform: scale(1);
@@ -786,6 +790,51 @@ h2 {
   background-blend-mode: soft-light;
 }
 
+.comparison {
+  max-width: 440px;
+  background-color: rgba(255, 255, 255, 0.6);
+  background-blend-mode: soft-light;
+}
+
+.comparison_right .training__question {
+  background-color: rgba(168, 195, 62, 0.5) !important;
+}
+
+.comparison_wrong .training__question {
+  background-color: rgba(255, 91, 93, 0.5) !important;
+}
+
+.comparison .training__question {
+  max-width: 300px;
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: rgba(254, 207, 0, 0.3);
+}
+
+.comparison .training__answers .btn {
+  font-size: 1.3rem;
+}
+
+.comparison .training__select, .comparison .training__level {
+  display: none;
+}
+
+.comparison .training__info {
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
 .statistic-container table {
   width: 100%;
   margin-top: 20px;
@@ -930,11 +979,17 @@ h2 {
             order: 3;
     margin-top: 5px;
   }
-  .adding__question {
-    font-size: 4rem;
+  .training__matrix__item {
+    font-size: 1.3rem;
   }
-  .adding__answers .btn {
-    font-size: 1.5rem;
+  .training__overlay:not(.hidden) {
+    font-size: 1rem;
+  }
+  .training__question {
+    font-size: 2.5rem;
+  }
+  .training__answers .btn {
+    font-size: 1rem;
     margin: 0.5rem;
   }
   .footer__logo {
