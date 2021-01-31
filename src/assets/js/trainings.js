@@ -80,6 +80,7 @@ export const trainingsItems = [
         key: 'unikum',
         name: 'Уникум',
         image: 'img/thinking/unikum.jpg',
+        bg: 'img/thinking/bg/thinking.jpg',
         description: 'Тренажер для развития образного мышления',
       },
     ],
