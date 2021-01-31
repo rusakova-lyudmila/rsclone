@@ -166,7 +166,7 @@ function renderInfo(gameState) {
 function stopGame(gameState) {
   const scoreItem = document.querySelector('.score__item');
   const score = scoreItem.textContent;
-  const { gameContainer } = gameState;
+  const { gameContainer, trainingInfo } = gameState;
 
   // init finish training container
   const finishTrainingContainer = document.createElement('div');
@@ -179,11 +179,16 @@ function stopGame(gameState) {
   finishTrainingContainer.appendChild(finishScore);
 
   // init finish training button
-  const finishButton = document.createElement('button');
+  const finishFormContainer = document.createElement('div');
+  const csrf = document.querySelector('input[name="csrf"]').value;
+  finishFormContainer.innerHTML = `<form action="/statistic" method="POST" novalidate="" _lpchecked="1"><input type="hidden" id="title" name="title" value="${trainingInfo.name}"><input type="hidden" id="typeTraining" name="typeTraining" value="${trainingInfo.type}"><input type="hidden" id="score" name="score" value="${score}"><input type="hidden" name="_csrf" value="${csrf}"><button class="training__button btn"><i class="material-icons">close</i>Выйти</button></form>`;
+  finishTrainingContainer.appendChild(finishFormContainer);
+
+  /* const finishButton = document.createElement('button');
   finishButton.classList.add('training__button', 'btn');
   finishButton.innerHTML = '<i class="material-icons">close</i>Выйти';
   finishButton.addEventListener('click', closeTrainingHandler);
-  finishTrainingContainer.appendChild(finishButton);
+  finishTrainingContainer.appendChild(finishButton); */
 
   gameContainer.textContent = '';
   gameContainer.appendChild(finishTrainingContainer);
