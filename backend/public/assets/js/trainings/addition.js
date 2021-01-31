@@ -155,7 +155,6 @@ function stopGame(gameState) {
   const scoreItem = document.querySelector('.score__item');
   const score = scoreItem.textContent;
   const { gameContainer, trainingInfo } = gameState;
-  console.log(gameState);
 
   // init finish training container
   const finishTrainingContainer = document.createElement('div');

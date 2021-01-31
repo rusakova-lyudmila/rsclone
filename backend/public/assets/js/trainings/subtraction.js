@@ -37,7 +37,6 @@ function mixAnswers(arr) {
 }
 
 function getAnswers(correctAnswer, maxTerm, answersCount) {
-  console.log(correctAnswer);
   const answers = [correctAnswer];
   while (answers.length < answersCount) {
     const nextAnswer = Math.abs(correctAnswer + Math.round((Math.random() - 0.5) * maxTerm * 0.5));
@@ -56,6 +55,7 @@ function generateExample({ termsCount, maxTerm, answersCount }) {
   terms[0] += correctAnswerIntermediate * 2;
   const sub = terms.reduce((diff, term) => diff - term);
   const correctAnswer = Math.abs(sub);
+
   const answers = getAnswers(correctAnswer, maxTerm, answersCount);
 
   return {

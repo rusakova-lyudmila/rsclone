@@ -82,6 +82,7 @@ router.post('/register', registerValidators, async (req, res) => {
 })
 
 router.get('/reset', (req, res) => {
+  req.flash('info', 'Welcome');
   res.render('auth/reset', {
     title: 'Забыли пароль?',
     error: req.flash('error')

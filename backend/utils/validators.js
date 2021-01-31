@@ -13,8 +13,12 @@ exports.registerValidators = [
       } catch (e) {
         console.log(e)
       }
-    })
-    .normalizeEmail(),
+    }).normalizeEmail({
+      gmail_remove_dots: false,
+      gmail_remove_subaddress: false,
+      yahoo_remove_subaddress: false,
+      icloud_remove_subaddress: false
+    }),
   body('password', 'Пароль должен быть минимум 6 символов')
     .isLength({min: 6, max: 56})
     .isAlphanumeric()
