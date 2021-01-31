@@ -6,21 +6,7 @@ import initAudio from '../components/audio';
 export const gameLevelInfo = {
   [gameLevel.easy.levelName]: {
     gameLevel: gameLevel.easy,
-    termsCount: 2,
-    maxTerm: 20,
-    answersCount: 3,
-  },
-  [gameLevel.medium.levelName]: {
-    gameLevel: gameLevel.medium,
-    termsCount: 3,
-    maxTerm: 40,
-    answersCount: 4,
-  },
-  [gameLevel.hard.levelName]: {
-    gameLevel: gameLevel.hard,
-    termsCount: 4,
-    maxTerm: 60,
-    answersCount: 5,
+    variantCount: 4,
   },
 };
 
@@ -32,33 +18,15 @@ function audioSound(audioName) {
   }
 }
 
-function mixAnswers(arr) {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
-
-function getAnswers(correctAnswer, maxTerm, answersCount) {
-  const answers = [correctAnswer];
-  while (answers.length < answersCount) {
-    const nextAnswer = Math.abs(correctAnswer + Math.round((Math.random() - 0.5) * maxTerm * 0.5));
-    if (!answers.includes(nextAnswer)) {
-      answers.push(nextAnswer);
-    }
-  }
-  return mixAnswers(answers);
-}
-
-function generateExample({ termsCount, maxTerm, answersCount }) {
-  const terms = Array(termsCount).fill(0).map(() => Math.round(Math.random() * maxTerm) + 1);
-  const subIntermediate = terms.reduce((diff, term) => diff - term);
-  const correctAnswerIntermediate = Math.abs(subIntermediate);
-
-  terms[0] += correctAnswerIntermediate * 2;
-  const sub = terms.reduce((diff, term) => diff - term);
-  const correctAnswer = Math.abs(sub);
-  const answers = getAnswers(correctAnswer, maxTerm, answersCount);
+function generateExample({ variantCount }, previousQuestion) {
+  const question = Math.random() > 0.7
+    ? previousQuestion
+    : Math.floor(Math.random() * variantCount);
+  const correctAnswer = previousQuestion === question ? 'Да' : 'Нет';
+  const answers = ['Да', 'Нет'];
 
   return {
-    question: terms.join(' - '),
+    question,
     correctAnswer,
     answers,
   };
@@ -67,7 +35,32 @@ function generateExample({ termsCount, maxTerm, answersCount }) {
 function initQuestion(question) {
   const questionContainer = document.createElement('div');
   questionContainer.classList.add('training__question');
-  questionContainer.textContent = question;
+
+  const canvasContainer = document.createElement('canvas');
+  canvasContainer.classList.add('training__canvas');
+  canvasContainer.setAttribute('width', '300px');
+  canvasContainer.setAttribute('height', '180px');
+  const circleCoordinates = [
+    [75, 40],
+    [225, 40],
+    [75, 140],
+    [225, 140],
+  ];
+  const canvasContent = canvasContainer.getContext('2d');
+  canvasContent.strokeStyle = '#2c80a5';
+  canvasContent.lineWidth = 5;
+
+  circleCoordinates.forEach(([x, y], ind) => {
+    canvasContent.beginPath();
+    canvasContent.fillStyle = ind === question ? '#2c80a5' : '#fff';
+    canvasContent.arc(x, y, 35, 0, Math.PI * 2, true);
+    canvasContent.fill();
+    canvasContent.closePath();
+    canvasContent.stroke();
+  });
+
+  questionContainer.appendChild(canvasContainer);
+
   return questionContainer;
 }
 
@@ -88,11 +81,11 @@ function initAnswers(example, successHandler, failHandler) {
   return answersContainer;
 }
 
-function renderExample(gameObj) {
+function renderExample(gameObj, firstRender = false) {
   const { container, level, example } = gameObj;
   container.innerHTML = '';
 
-  // init question(example to subtraction) container
+  // init question container
   const question = initQuestion(example.question);
   container.appendChild(question);
 
@@ -105,29 +98,42 @@ function renderExample(gameObj) {
   const successHandler = () => {
     newGameState.score += 1;
     if (newGameState.status === gameStatus.start) {
-      const newExample = generateExample(level);
+      const newExample = generateExample(level, gameObj.example.question);
       renderExample({ ...newGameState, example: newExample });
 
       const audioAllowing = getGameAudioStatus();
       if (audioAllowing) {
         audioSound('right-answer');
       }
+
+      container.classList.add('comparison_right');
+      setTimeout(() => {
+        container.classList.remove('comparison_right');
+      }, 1000);
     }
   };
 
   const failHandler = () => {
+    newGameState.score -= 1;
     if (newGameState.status === gameStatus.start) {
-      const newExample = generateExample(gameObj.level);
+      const newExample = generateExample(level, gameObj.example.question);
       renderExample({ ...newGameState, example: newExample });
 
       const audioAllowing = getGameAudioStatus();
       if (audioAllowing) {
         audioSound('wrong-answer');
       }
+
+      container.classList.add('comparison_wrong');
+      setTimeout(() => {
+        container.classList.remove('comparison_wrong');
+      }, 1000);
     }
   };
 
-  const answers = initAnswers(example, successHandler, failHandler);
+  const answers = firstRender
+    ? initAnswers(example, () => {}, () => {})
+    : initAnswers(example, successHandler, failHandler);
   container.appendChild(answers);
 }
 
@@ -203,7 +209,11 @@ function renderGame(gameState) {
     gameContainer.appendChild(audio);
 
     startTimer(gameState.duration, result.timerContainer, () => { stopGame(gameState); });
-    renderExample({ ...gameState, container: exampleContainer });
+    renderExample({ ...gameState, container: exampleContainer }, true);
+    setTimeout(() => {
+      const newExample = generateExample(gameState.level, gameState.example.question);
+      renderExample({ ...gameState, container: exampleContainer, example: newExample });
+    }, 2000);
   }
 }
 
@@ -220,7 +230,7 @@ export function initGame(level, gameContainer, trainingInfo, duration = 60) {
 }
 
 export function startGame(gameObj) {
-  const example = generateExample(gameObj.level);
+  const example = generateExample(gameObj.level, 0);
   const newGameState = { ...gameObj, status: gameStatus.start, example };
   renderGame(newGameState);
 
