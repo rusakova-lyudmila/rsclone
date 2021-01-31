@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
         res.redirect('/auth/login#login')
       }
     } else {
-      req.flash('loginError', 'Такого пользователя не существует')
+      req.flash('loginError', 'Такого пользователя нет')
       res.redirect('/auth/login#login')
     }
   } catch (e) {
@@ -82,6 +82,7 @@ router.post('/register', registerValidators, async (req, res) => {
 })
 
 router.get('/reset', (req, res) => {
+  req.flash('info', 'Welcome');
   res.render('auth/reset', {
     title: 'Забыли пароль?',
     error: req.flash('error')

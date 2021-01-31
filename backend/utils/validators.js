@@ -13,8 +13,12 @@ exports.registerValidators = [
       } catch (e) {
         console.log(e)
       }
-    })
-    .normalizeEmail(),
+    }).normalizeEmail({
+      gmail_remove_dots: false,
+      gmail_remove_subaddress: false,
+      yahoo_remove_subaddress: false,
+      icloud_remove_subaddress: false
+    }),
   body('password', 'Пароль должен быть минимум 6 символов')
     .isLength({min: 6, max: 56})
     .isAlphanumeric()
@@ -34,13 +38,13 @@ exports.registerValidators = [
 
 
 exports.courseValidators = [
-  body('title').isLength({min: 3}).withMessage('Минимальная длинна названия 3 символа').trim(),
+  body('title').isLength({min: 3}).withMessage('Минимальная длина названия 3 символа').trim(),
   body('price').isNumeric().withMessage('Введите корректную цену'),
   body('img', 'Введите корректный Url картинки').isURL()
 ]
 
 exports.statisticValidators = [
-  body('title').isLength({min: 3}).withMessage('Минимальная длинна названия 3 символа').trim(),
+  body('title').isLength({min: 3}).withMessage('Минимальная длина названия 3 символа').trim(),
   body('typeTraining').isLength({min: 3}).withMessage('Введите корректный тип'),
   body('score', 'Некорректная информация').isNumeric()
 ]

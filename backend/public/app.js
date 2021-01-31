@@ -66,9 +66,26 @@ M.Tabs.init(document.querySelectorAll('.tabs'))
 
 document.addEventListener('DOMContentLoaded', function() {
   const elems = document.querySelectorAll('.sidenav');
-  var dropdowns = document.querySelectorAll('.dropdown-trigger')
+  const dropdowns = document.querySelectorAll('.dropdown-trigger')
   for (var i = 0; i < dropdowns.length; i++){
     M.Dropdown.init(dropdowns[i],{});
   }
   M.Sidenav.init(elems, {});
 });
+
+
+// rotate cards
+function rotateCard(e) {
+  const targetCardName = e.currentTarget.dataset.card;
+  const targetCardBlock = document.querySelector(`.cards-${targetCardName}`);
+
+  targetCardBlock.classList.toggle('cards__block_hover');
+
+  e.stopPropagation();
+}
+
+const cardRotateButton = document.querySelectorAll('.card__button');
+cardRotateButton.forEach((elem) => elem.addEventListener('click', rotateCard));
+
+const cardBackItem = document.querySelectorAll('.cards__back');
+cardBackItem.forEach((elem) => elem.addEventListener('mouseleave', rotateCard));

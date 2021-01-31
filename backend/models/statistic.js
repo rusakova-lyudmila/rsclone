@@ -3,7 +3,6 @@ const {Schema, model, Types} = require('mongoose');
 const schema = new Schema({
     title: {
         type: String,
-        unique: true,
         required: true
     },
     typeTraining: {

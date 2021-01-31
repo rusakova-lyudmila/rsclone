@@ -21,6 +21,7 @@ const userMiddleware = require('./middleware/user')
 const errorHandler = require('./middleware/error')
 const fileMiddleware = require('./middleware/file')
 const keys = require('./keys')
+const helpers = require('handlebars-helpers')()
 
 const PORT = process.env.PORT || keys.PORT
 

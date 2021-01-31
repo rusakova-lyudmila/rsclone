@@ -1,14 +1,11 @@
 {{> head }}
 <body>
-  {{> navbar}}
-<main>
-  <div class="container">
-    <div class="title-page">
-      {{{ body }}}
-    </div>
-  </div>
-</main>
+  <header class="header-container">
+    {{> navbar}}
+  </header>
 
-{{> footer}}
+  {{{ body }}}
+
+  {{> footer}}
 </body>
 </html>
