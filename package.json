@@ -33,9 +33,6 @@
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
-    "babel-preset-env": "^1.7.0",
-    "navigo": "^8.7.1",
-    "router5": "^8.0.1",
-    "router5-plugin-browser": "^8.0.1"
+    "babel-preset-env": "^1.7.0"
   }
 }
