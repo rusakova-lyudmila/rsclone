@@ -1,0 +1,13 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": "airbnb",
+    "rules": {
+        "semi": ["error", "always"],
+        "quotes": ["error", "single"],
+        "linebreak-style": ["error", "windows"]
+    },
+    "parser": "babel-eslint"
+}
